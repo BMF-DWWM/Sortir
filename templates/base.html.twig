@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=yes, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Sortir ! {% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+{#    <link rel="icon" href="{{ asset('img/icon.png') }}">#}
+</head>
+<body>
+<div class="container">
+    <header>
+{#        <h1><a href="{{ path('main_home') }}" ><img src="{{ asset('img/logo.png') }}" alt="Bucket-list!"></a></h1>#}
+        {% include('inc/nav.html.twig') %}
+
+    </header>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <main>
+        {% block body %}{% endblock %}
+    </main>
+    <footer>
+        {% include('inc/nav.html.twig') %}
+        <p>&copy;Sortir {{ "now"|date("Y") }}  !</p>
+    </footer>
+</div>
+</body>
+</html>
