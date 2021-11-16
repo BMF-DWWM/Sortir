@@ -27,10 +27,11 @@ class SortieController extends AbstractController
         $createSortieForm = $this->createForm(CreateSortieType::class,$sortie);
         $createSortieForm->handleRequest($request );
         $dateDebutSortie = ($createSortieForm->get('dateHeureDebut')->getData());
-        $sortie->setDateLimiteInscription($dateDebutSortie);
+
         $sortie->setOrganisateur($this->getUser());
 
         if ($createSortieForm->isSubmitted()&&$createSortieForm->isValid()){
+            $sortie->setDateLimiteInscription($dateDebutSortie);
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Sortie Added ! Good job.');
