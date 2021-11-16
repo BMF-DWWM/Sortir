@@ -1,5 +1,15 @@
-<nav>
-    <ul>
+<nav class="nav-bar">
+    <ul>Connexion/Inscription
+        <a href="{{ path('app_register') }}" title="registration">Registration</a>
+        <a href="{{ path('app_login') }}" title="registration">Login</a>
+    </ul>
+
+    <ul>Recherche
+        <a href="{{ path('sortie_list') }}" title="sorties">Sorties</a>
+        <a href="{{ path('sortie_list') }}" title="sorties">Sorties</a>
+    </ul>
+
+    <ul>Options {{ app.User.prenom }} :
         <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
         <li><a href="{{ path('campus_create') }}" title="Create Campus">Create Campus</a></li>
         <li><a href="{{ path('etat_create') }}" title="Create Etat">Create Etat</a></li>

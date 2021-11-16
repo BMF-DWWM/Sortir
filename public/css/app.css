@@ -1,0 +1,41 @@
+body{
+  display: flex;
+  flex-direction: column;
+  background-color: #d9fddf;
+}
+a{
+  text-decoration-line: none;
+  color: goldenrod;
+}
+
+header{
+  background-color: #afff9a;
+  height: auto;
+
+}
+
+.header_navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  outline: none;
+}
+.nav-bar{
+  display: flex;
+
+  text-decoration-line: none;
+
+}
+h1{
+  display: flex;
+  justify-content: center;
+  font-family: fantasy;
+  -webkit-text-fill-color: #1e5723;
+
+}
+
+.form{
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+}

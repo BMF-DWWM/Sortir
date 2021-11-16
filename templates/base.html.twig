@@ -13,12 +13,29 @@
 {#    <link rel="icon" href="{{ asset('img/icon.png') }}">#}
 </head>
 <body>
-<div class="container">
+
     <header>
 {#        <h1><a href="{{ path('main_home') }}" ><img src="{{ asset('img/logo.png') }}" alt="Bucket-list!"></a></h1>#}
-        {% include('inc/nav.html.twig') %}
+
+        <div >
+            <h2 class="header_navbar">
+                <a href="{{ path('main_home') }}" title="Back to Homepage">
+                    <img src="{{ asset('img/Logo_Sortir.png') }}" alt="Sortir-Home">
+                </a>
+
+
+
+
+
+
+                {% include('inc/nav.html.twig') %}
+            </h2>
+        </div>
 
     </header>
+
+    <div>
+
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="flash flash-{{ label }}">
@@ -30,10 +47,12 @@
     <main>
         {% block body %}{% endblock %}
     </main>
+
+    </div>
+
     <footer>
 {#        {% include('inc/nav.html.twig') %}#}
         <p>&copy;Sortir {{ "now"|date("Y") }}  !</p>
     </footer>
-</div>
 </body>
 </html>
