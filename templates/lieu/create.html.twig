@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if app.user  %}
-        <h1> Hello {{ app.user.firstname }}</h1>
+        <h1> Hello {{ app.User.prenom}} {{ app.user.nom }}</h1>
     {% else %}
         <h1>Hello MotherFucker</h1>
     {% endif %}

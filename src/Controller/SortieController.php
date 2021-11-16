@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 class SortieController extends AbstractController
 {
@@ -24,6 +25,9 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $createSortieForm = $this->createForm(CreateSortieType::class,$sortie);
         $createSortieForm->handleRequest($request );
+        $dateDebutSortie = ($createSortieForm->get('dateHeureDebut')->getData());
+        $sortie->setDateLimiteInscription($dateDebutSortie);
+        $sortie->setOrganisateur($this->getUser());
 
         if ($createSortieForm->isSubmitted()&&$createSortieForm->isValid()){
             $entityManager->persist($sortie);
