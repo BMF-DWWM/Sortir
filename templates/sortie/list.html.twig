@@ -7,11 +7,13 @@
         <h1>Hello MotherFucker</h1>
     {% endif %}
     <div>
-        {{ form_start(createVilleForm) }}
-
-        {{ form_widget(createVilleForm) }}
-        <button>Create!</button>
-        {{ form_end(createVilleForm) }}
+        {% for sortie in sorties %}
+        <article>
+{#            <a href="{{ path('sortie_details', {'id' : sortie.id }) }}" title="View sorties detail">#}
+                {{ sortie.nom }}
+            </a>
+        </article>
+        {% endfor %}
     </div>
 {% endblock %}
 
