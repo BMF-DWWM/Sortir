@@ -25,10 +25,24 @@ class SortieRepository extends ServiceEntityRepository
 
         if($campus){
             $queryBuilder
-                ->andWhere('s.campus = campus')
+                ->andWhere('s.campus = :campus')
                 ->setParameter('campus', $campus);
         }
         $query = $queryBuilder->getQuery();
+        return $query->getResult();
+    }
+
+    public function search ($mots = null, $campus=null){
+        $querybuilder = $this->createQueryBuilder('s');
+        if ($mots != null){
+            $querybuilder->where('s.nom LIKE :mots ')
+                ->setParameter('mots','%'. $mots.'%');
+        }
+        if ($campus != null){
+            $querybuilder->andWhere('s.campus = :campus ')
+                ->setParameter('campus', $campus);
+        }
+        $query = $querybuilder->getQuery();
         return $query->getResult();
     }
     // /**
