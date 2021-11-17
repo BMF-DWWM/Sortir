@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ParticipantController extends AbstractController
 {
     /**
-     * @Route("/participant/{id}", name="participant_view")
+     * @Route("/participant", name="participant_view")
      */
     public function view(): Response
     {
