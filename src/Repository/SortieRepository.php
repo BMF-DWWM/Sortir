@@ -39,7 +39,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('mots','%'. $mots.'%');
         }
         if ($campus != null){
-            $querybuilder->andWhere('s.campus = :campus ')
+            $querybuilder->andWhere(' s.campus = :campus ')
                 ->setParameter('campus', $campus);
         }
         $query = $querybuilder->getQuery();

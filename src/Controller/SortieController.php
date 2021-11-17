@@ -56,7 +56,7 @@ class SortieController extends AbstractController
        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
            $sorties = $sortieRepository->search(
                $search->get('mots')->getData(),
-               $search->get('campus')->getName()
+               $search->get('campus')->getData()
 
            );
        }

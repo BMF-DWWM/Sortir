@@ -19,7 +19,6 @@ class SearchSortieType extends AbstractType
             ->add('campus', EntityType::class,[
                     'class'=> Campus::class,
                     'choice_label'=> 'nom',
-                    'choice_value'=> 'id'
                 ]
             )
             ->add('mots', SearchType::class,[
