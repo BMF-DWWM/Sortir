@@ -22,7 +22,6 @@ header{
 }
 .nav-bar{
   display: flex;
-
   text-decoration-line: none;
 
 }
@@ -30,7 +29,7 @@ h1{
   display: flex;
   justify-content: center;
   font-family: fantasy;
-  -webkit-text-fill-color: #1e5723;
+  -webkit-text-fill-color: #236728;
 
 }
 
