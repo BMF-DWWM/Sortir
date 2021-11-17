@@ -26,19 +26,9 @@ header{
   text-decoration-line: none;
 
 }
-h1{
-  display: flex;
-  justify-content: center;
-  font-family: fantasy;
-  -webkit-text-fill-color: #236728;
 
-}
 
-.form{
-  display: flex;
-  justify-content: center;
-  align-content: space-between;
-}
+
 
 */
 
@@ -48,10 +38,22 @@ h1{
   -moz-box-sizing: border-box;
 }
 body{
+  display: flex;
+  flex-direction: column;
   font-family: Helvetica;
   -webkit-font-smoothing: antialiased;
   background: rgba( 71, 147, 227, 1);
 }
+
+h1{
+  display: flex;
+  justify-content: center;
+  font-family: fantasy;
+  -webkit-text-fill-color: #ffffff;
+
+
+}
+
 h2{
   text-align: center;
   font-size: 18px;
@@ -169,4 +171,10 @@ h2{
     display: block;
     text-align: center;
   }
+}
+
+.form{
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
 }
