@@ -1,16 +1,14 @@
 <nav class="nav-bar">
-    <ul>Connexion/Inscription
-        <a href="{{ path('app_register') }}" title="registration">Registration</a>
-        <a href="{{ path('app_login') }}" title="registration">Login</a>
-    </ul>
 
     <ul>Recherche
+        <a href="{{ path('main_home') }}" title="Home">Home</a>
         <a href="{{ path('sortie_list') }}" title="sorties">Sorties</a>
-        <a href="{{ path('sortie_list') }}" title="sorties">Sorties</a>
+        <a href="" title="profil">Profil</a>
+        <a href="" title="deconnexion">Se déconnecter</a>
+
     </ul>
 
     <ul>Options :
-        <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
         <li><a href="{{ path('campus_create') }}" title="Create Campus">Create Campus</a></li>
         <li><a href="{{ path('etat_create') }}" title="Create Etat">Create Etat</a></li>
         <li><a href="{{ path('lieu_create') }}" title="Create lieu">Create Lieu</a></li>
@@ -19,9 +17,11 @@
         {% if app.user %}
             {% if is_granted("ROLE_ADMIN") %}
             {% endif %}
+    </ul>
+    <ul>
         {% else %}
-            <li><a href="{{ path('app_login') }}" title="Login">Login</a></li>
-            <li><a href="{{ path('app_register') }}" title="Create account">Register</a></li>
+            <a href="{{ path('app_login') }}" title="Login">Login</a>
+            <a href="{{ path('app_register') }}" title="Create account">Register</a>
         {% endif %}
     </ul>
 </nav>

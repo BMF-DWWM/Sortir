@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if app.user  %}
+        <h1> Hello {{ app.user.nom }}</h1>
+    {% else %}
+        <h1>Hello MotherFucker</h1>
+    {% endif %}
+    <div>
+        {{ form(formSearch) }}
+    </div>
+    <div>
+        <table>
+            <th>Nom du campus</th>
+            <th>Etat</th>
+            <th>Organisateur</th>
+            {% for sortie in sorties %}
+
+            <tr>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i:s') }}</td>
+                <td>{{ sortie.dateLimiteInscription |date('d/m/Y H:i:s')}}</td>
+                <td>{{ sortie.nbInscriptionsMax }} max</td>
+                <td>{{ sortie.etat.libelle }}</td>
+                <td>{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</td>
+            </tr>
+        </table>
+
+
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block title  %}{{ parent() }} | Home {% endblock %}
