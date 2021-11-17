@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +29,18 @@ class SearchSortieType extends AbstractType
                     'placeholder' => 'search'
                 ],
                 'required'=>false
+            ])
+            ->add('date1', DateTimeType::class,[
+                'html5' => true,
+                'widget' => 'single_text',
+                'label' => 'Entre'
+
+            ])
+            ->add('date2', DateTimeType::class,[
+                'html5' => true,
+                'widget' => 'single_text',
+                'label' => 'Entre'
+
             ])
             ->add('Rerchercher', SubmitType::class)
         ;
