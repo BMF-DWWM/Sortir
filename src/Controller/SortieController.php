@@ -54,7 +54,11 @@ class SortieController extends AbstractController
        $sorties = $sortieRepository ->findAll();
 
        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
-           $sorties = $sortieRepository->search($search->get('mots')->getData());
+           $sorties = $sortieRepository->search(
+               $search->get('mots')->getData(),
+               $search->get('campus')->getName()
+
+           );
        }
 
        return $this->render('sortie/list.html.twig',[
