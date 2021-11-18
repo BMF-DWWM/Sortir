@@ -56,7 +56,7 @@
                         <td>{{ sortie.membreInscrit.count }}/{{ sortie.nbInscriptionsMax }} </td>
                         <td>{{ sortie.etat.libelle }}</td>
                         <td>{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</td>
-                    <form method="post" action="{{ path('sortie_inscription',{'id': sortie.id},{'inscritpion':'ok' }) }}">
+                    <form method="post" action="{{ path('sortie_inscription',{'id': sortie.id}) }}">
                         <td>
                             <input type="submit" value="S'incrire" name="inscription">
                     </form>
