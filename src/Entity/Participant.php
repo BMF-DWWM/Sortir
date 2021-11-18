@@ -70,6 +70,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $organise;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $pseudo;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -266,6 +271,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
                 $organise->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(?string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
