@@ -107,5 +107,15 @@ class SortieController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/sortie/detail/{id}", name="sortie_detail")
+     */
+    public function detail(Sortie $sortie
+    ): Response
+    {
+        return $this->render('sortie/detail.html.twig',[
+            'sortie' => $sortie
+        ]);
+    }
 
 }
