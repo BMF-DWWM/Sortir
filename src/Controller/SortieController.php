@@ -68,6 +68,38 @@ class SortieController extends AbstractController
             'formSearch' => $formSearch->createView()
        ]);
     }
+    /**
+     * @Route("/sortie/modifier", name="sortie_modifier")
+     */
+    public function modifier(SortieRepository $sortieRepository,
+                         Request $request
+    ): Response
+    {
+        if ($_POST["modifier"] =! null){
+            $sortie= $sortieRepository->find($_GET["id"]);
+            $sortie->addMembreInscrit($this->getUser());
+//            $this->addFlash('success','Inscritption Added ! Good job.');
+        }
+        $formSearch = $this->createForm(SearchSortieType::class);
+        $search = $formSearch->handleRequest($request);
+        $sorties = $sortieRepository ->findAll();
+
+        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
+            $sorties = $sortieRepository->search(
+                $search->get('mots')->getData(),
+                $search->get('campus')->getData(),
+                $search->get('date1')->getData(),
+                $search->get('date2')->getData()
+
+            );
+        }
+
+        return $this->render('sortie/detail.html.twig',[
+            'sortie'=>$sortie,
+            'sorties'=> $sorties,
+            'formSearch' => $formSearch->createView()
+        ]);
+    }
 //
     /**
      * @Route("/sortie/inscription", name="sortie_inscription")
@@ -78,18 +110,33 @@ class SortieController extends AbstractController
 
     ): Response
     {
-        if ($_POST == "inscription"){
-            dd($_POST);
+
+
+        if ($_POST["inscription"] =! null){
+            $sortie= $sortieRepository->find($_GET["id"]);
+            $sortie->addMembreInscrit($this->getUser());
+            $this->addFlash('success','Inscritption Added ! Good job.');
 
         }
-        $sortie= $sortieRepository->find($_GET["id"]);
-        $sortie->addMembreInscrit($this->getUser());
+        if ($_POST["desiste"] =! null){
+            $sortie= $sortieRepository->find($_GET["id"]);
+            $sortie->addMembreInscrit($this->getUser());
+            $this->addFlash('success','You leave ! it\'s not a Good job.');
+
+        }
+        if ($_POST["annuler"] =! null){
+            $sortie= $sortieRepository->find($_GET["id"]);
+            $sortie->addMembreInscrit($this->getUser());
+            $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');
+
+        }
+
         $entityManager->persist($sortie);
         $entityManager->flush();
         $formSearch = $this->createForm(SearchSortieType::class);
         $search = $formSearch->handleRequest($request);
         $sorties = $sortieRepository ->findAll();
-        $this->addFlash('success','Inscritption Added ! Good job.');
+
 
         if ($formSearch->isSubmitted()&&$formSearch->isValid()){
             $sorties = $sortieRepository->search(
