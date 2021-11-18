@@ -78,7 +78,7 @@ class SortieController extends AbstractController
 
     ): Response
     {
-
+        dd($_POST);
         $sortie= $sortieRepository->find($_GET["id"]);
         $sortie->addMembreInscrit($this->getUser());
         $entityManager->persist($sortie);
