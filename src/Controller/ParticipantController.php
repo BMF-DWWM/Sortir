@@ -45,7 +45,7 @@ class ParticipantController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+        //Surprise MotherFucker
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
