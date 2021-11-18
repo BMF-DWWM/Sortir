@@ -33,13 +33,15 @@ class SearchSortieType extends AbstractType
             ->add('date1', DateTimeType::class,[
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Entre'
+                'label' => 'Entre',
+                'required'=>false
 
             ])
             ->add('date2', DateTimeType::class,[
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Entre'
+                'label' => 'Entre',
+                'required'=>false
 
             ])
             ->add('Rerchercher', SubmitType::class)

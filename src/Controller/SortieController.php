@@ -68,6 +68,41 @@ class SortieController extends AbstractController
             'formSearch' => $formSearch->createView()
        ]);
     }
+//
+    /**
+     * @Route("/sortie/inscription", name="sortie_inscription")
+     */
+    public function inscription(SortieRepository $sortieRepository,
+                         Request $request,
+                        EntityManagerInterface $entityManager
+
+    ): Response
+    {
+
+        $sortie= $sortieRepository->find($_GET["id"]);
+        $sortie->addMembreInscrit($this->getUser());
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+        $formSearch = $this->createForm(SearchSortieType::class);
+        $search = $formSearch->handleRequest($request);
+        $sorties = $sortieRepository ->findAll();
+        $this->addFlash('success','Inscritption Added ! Good job.');
+
+        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
+            $sorties = $sortieRepository->search(
+                $search->get('mots')->getData(),
+                $search->get('campus')->getData(),
+                $search->get('date1')->getData(),
+                $search->get('date2')->getData()
+
+            );
+        }
+
+        return $this->render('sortie/list.html.twig',[
+            'sorties'=> $sorties,
+            'formSearch' => $formSearch->createView()
+        ]);
+    }
 
 
 }
