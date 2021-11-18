@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
+use App\Form\UpdateProfilType;
 use App\Security\AppAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,7 @@ class ParticipantController extends AbstractController
     ): Response
     {
         $user = $this ->getUser();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(UpdateProfilType::class,$user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,7 +55,8 @@ class ParticipantController extends AbstractController
         }
 
         return $this->render('participant/index.html.twig', [
-            'registrationForm' => $form->createView(),
+            'user' => $user,
+            'UpdateProfil' => $form->createView(),
         ]);
     }
 }
