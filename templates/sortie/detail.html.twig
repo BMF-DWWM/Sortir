@@ -6,8 +6,26 @@
 
 {% block body %}
 
-    <div>{{ sortie.id }}</div>
-    <div>{{ sortie.nom }}</div>
+    <div class="container">
+        <div class="block">
+            <label>Nom de la sortie : </label><td>{{ sortie.nom }}</td>
+            <label>Date et heure de la sortie : </label><td>{{ sortie.dateHeureDebut|date('d/m/Y H:i:s') }}</td>
+            <label>Date limite d'inscription : </label><td>{{ sortie.dateLimiteInscription |date('d/m/Y H:i:s')}}</td>
+            <label>Nombre de places : </label><td>{{ sortie.nbInscriptionsMax }}</td>
+            <label>Durée : </label><td>{{ sortie.duree|date('H:i:s')}}</td>
+            <label>Description et infos : </label><td>{{ sortie.infosSortie }}</td>
+        </div>
+
+        <div class="block">
+            <label>Campus : </label><td>{{ sortie.campus.nom }}</td>
+            <label>Lieu : </label><td>{{ sortie.lieu.nom }}</td>
+            <label>Rue : </label><td>{{ sortie.lieu.rue }}</td>
+            <label>Code postal : </label><td>{{ sortie.lieu.ville.codePostal }}</td>
+            <label>Latitude : </label><td>{{ sortie.lieu.latitude }}</td>
+            <label>Longitude : </label><td>{{ sortie.lieu.longitude }}</td>
+        </div>
+    </div>
+
 
 {% endblock %}
 
