@@ -10,15 +10,9 @@
     <div>{{ app.user.email }}</div>
     <div>{{ app.user.telephone }}</div>
 
-
-    {{ form_start() }}
-
-    {{ form_widget( ) }}
-    {{ form_end() }}
-
-
-
-
+    {{ form_start(UpdateProfil) }}
+    {{ form_widget(UpdateProfil) }}
+    {{ form_end(UpdateProfil) }}
 
 {% endblock %}
 

@@ -15,18 +15,12 @@ class UpdateProfilType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
             ->add('password')
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
-            ->add('actif')
             ->add('pseudo')
-            ->add('sorties')
-            ->add('campus', EntityType::class, [
-                'class' => Campus::class,
-                'choice_label' => 'nom'
-            ])
+
         ;
     }
 
