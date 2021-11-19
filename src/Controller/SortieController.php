@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\CreateEtatType;
+use App\Form\CreateLieuformType;
 use App\Form\CreateSortieType;
 use App\Form\SearchSortieType;
 use App\Repository\EtatRepository;
@@ -30,18 +32,33 @@ class SortieController extends AbstractController
         $createSortieForm = $this->createForm(CreateSortieType::class,$sortie);
         $createSortieForm->handleRequest($request );
         $dateDebutSortie = ($createSortieForm->get('dateHeureDebut')->getData());
-
-
         $sortie->setOrganisateur($this->getUser());
+
+        $lieu = new Lieu();
+        $createLieuForm= $this->createForm(CreateLieuformType::class,$lieu);
+        $createLieuForm->handleRequest($request);
+
+
+
+        if ($createLieuForm->isSubmitted()&&$createLieuForm->isValid()){
+            $entityManager->persist($lieu);
+            $entityManager->flush();
+            $sortie->setLieu($lieu);
+            $this->addFlash('success','Lieu Added ! Good job.');
+
+        }
+
 
         if ($createSortieForm->isSubmitted()&&$createSortieForm->isValid()){
             $sortie->setEtat($etatRepository->find('4'));
             $sortie->setDateLimiteInscription($dateDebutSortie);
+            $sortie->addMembreInscrit($this->getUser());
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Sortie Added ! Good job.');
         }
         return $this->render('sortie/create.html.twig',[
+            'createLieuForm'=> $createLieuForm->createView(),
             'createSortieForm' => $createSortieForm->createView()
         ]);
     }
@@ -53,16 +70,21 @@ class SortieController extends AbstractController
                         Request $request
     ): Response
     {
+       $sorties = $sortieRepository ->findAll();
+
+
        $formSearch = $this->createForm(SearchSortieType::class);
        $search = $formSearch->handleRequest($request);
-       $sorties = $sortieRepository ->findAll();
+
 
        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
            $sorties = $sortieRepository->search(
                $search->get('mots')->getData(),
                $search->get('campus')->getData(),
                $search->get('date1')->getData(),
-               $search->get('date2')->getData()
+               $search->get('date2')->getData(),
+               $search->get('jeSuisOrganisateur')->getData(),
+               $this->getUser()
 
            );
        }
@@ -76,22 +98,35 @@ class SortieController extends AbstractController
      * @Route("/sortie/modifier", name="sortie_modifier")
      */
     public function modifier(SortieRepository $sortieRepository,
+                         EntityManagerInterface $entityManager,
                          Request $request
     ): Response
     {
-        if ($_POST["modifier"] =! null){
+
             $sortie= $sortieRepository->find($_GET["id"]);
             $formModifSortie = $this->createForm(CreateSortieType::class, $sortie);
             $formModifSortie->handleRequest($request);
-//            $this->addFlash('success','Inscritption Added ! Good job.');
-        }
 
-        $sorties = $sortieRepository ->findAll();
+            $sorties = $sortieRepository ->findAll();
+            $formSearch = $this->createForm(SearchSortieType::class);
 
 
-        return $this->render('sortie/detail.html.twig',[
+            if ($formModifSortie->isSubmitted()&&$formModifSortie->isValid()){
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                $this->addFlash('success','Modif Added ! Good job.');
+                return $this->render('sortie/list.html.twig',[
+                    'sorties'=> $sorties,
+                    'formSearch' => $formSearch->createView()
+                ]);
+            }
+
+
+
+
+
+        return $this->render('sortie/modifier.html.twig',[
             'sortie'=>$sortie,
-            'sorties'=> $sorties,
             'formModifSortie' => $formModifSortie->createView()
         ]);
     }
