@@ -8,21 +8,21 @@
 
     <div class="container">
         <div class="block">
-            <label>Nom de la sortie : </label><td>{{ sortie.nom }}</td>
-            <label>Date et heure de la sortie : </label><td>{{ sortie.dateHeureDebut|date('d/m/Y H:i:s') }}</td>
-            <label>Date limite d'inscription : </label><td>{{ sortie.dateLimiteInscription |date('d/m/Y H:i:s')}}</td>
-            <label>Nombre de places : </label><td>{{ sortie.nbInscriptionsMax }}</td>
-            <label>Durée : </label><td>{{ sortie.duree|date('H:i:s')}}</td>
-            <label>Description et infos : </label><td>{{ sortie.infosSortie }}</td>
+            <div><label>Nom de la sortie : </label><tp>{{ sortie.nom }}</tp></div>
+            <div><label>Date et heure de la sortie : </label><tp>{{ sortie.dateHeureDebut|date('d/m/Y H:i:s') }}</tp></div>
+            <div><label>Date limite d'inscription : </label><tp>{{ sortie.dateLimiteInscription |date('d/m/Y H:i:s')}}</tp></div>
+            <div><label>Nombre de places : </label><tp>{{ sortie.nbInscriptionsMax }}</tp></div>
+            <div><label>Durée : </label><tp>{{ sortie.duree|date('H:i:s')}}</tp></div>
+            <div><label>Description et infos : </label><tp>{{ sortie.infosSortie }}</tp></div>
         </div>
 
         <div class="block">
-            <label>Campus : </label><td>{{ sortie.campus.nom }}</td>
-            <label>Lieu : </label><td>{{ sortie.lieu.nom }}</td>
-            <label>Rue : </label><td>{{ sortie.lieu.rue }}</td>
-            <label>Code postal : </label><td>{{ sortie.lieu.ville.codePostal }}</td>
-            <label>Latitude : </label><td>{{ sortie.lieu.latitude }}</td>
-            <label>Longitude : </label><td>{{ sortie.lieu.longitude }}</td>
+            <div><label>Campus : </label><tp>{{ sortie.campus.nom }}</tp></div>
+            <div><label>Lieu : </label><tp>{{ sortie.lieu.nom }}</tp></div>
+            <div><label>Rue : </label><tp>{{ sortie.lieu.rue }}</tp></div>
+            <div><label>Code postal : </label><tp>{{ sortie.lieu.ville.codePostal }}</tp></div>
+            <div><label>Latitude : </label><tp>{{ sortie.lieu.latitude }}</tp></div>
+            <div><label>Longitude : </label><tp>{{ sortie.lieu.longitude }}</tp></div>
         </div>
     </div>
 

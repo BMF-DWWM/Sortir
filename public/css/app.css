@@ -147,11 +147,35 @@ h2{
 
 .container{
   display: flex;
+  justify-content: space-evenly;
+  margin: auto;
+  border: outset;
+  width: 60%;
+  height: 150%;
+  padding: 15px;
+  background: #8ed7ff;
 
 }
 
 .block{
-  display: flex;
+  display: block;
+  background: transparent;
+  line-height: 2em;
+
 
 
 }
+label{
+  font-weight: bold;
+  margin: 2px;
+  padding: 5px;
+
+}
+
+tp{
+  text-anchor: end;
+  font-size: large;
+
+}
+
+
