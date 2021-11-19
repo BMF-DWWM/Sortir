@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\CreateEtatType;
+use App\Form\CreateLieuformType;
 use App\Form\CreateSortieType;
 use App\Form\SearchSortieType;
 use App\Repository\EtatRepository;
@@ -30,9 +32,22 @@ class SortieController extends AbstractController
         $createSortieForm = $this->createForm(CreateSortieType::class,$sortie);
         $createSortieForm->handleRequest($request );
         $dateDebutSortie = ($createSortieForm->get('dateHeureDebut')->getData());
-
-
         $sortie->setOrganisateur($this->getUser());
+
+        $lieu = new Lieu();
+        $createLieuForm= $this->createForm(CreateLieuformType::class,$lieu);
+        $createLieuForm->handleRequest($request);
+
+
+
+        if ($createLieuForm->isSubmitted()&&$createLieuForm->isValid()){
+            $entityManager->persist($lieu);
+            $entityManager->flush();
+            $sortie->setLieu($lieu);
+            $this->addFlash('success','Lieu Added ! Good job.');
+
+        }
+
 
         if ($createSortieForm->isSubmitted()&&$createSortieForm->isValid()){
             $sortie->setEtat($etatRepository->find('4'));
@@ -43,6 +58,7 @@ class SortieController extends AbstractController
             $this->addFlash('success','Sortie Added ! Good job.');
         }
         return $this->render('sortie/create.html.twig',[
+            'createLieuForm'=> $createLieuForm->createView(),
             'createSortieForm' => $createSortieForm->createView()
         ]);
     }

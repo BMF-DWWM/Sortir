@@ -8,11 +8,50 @@
     {% endif %}
     <div class="form">
         {{ form_start(createSortieForm) }}
-
-        {{ form_widget(createSortieForm) }}
+        {{ form_row(createSortieForm.nom) }}
+        {{ form_row(createSortieForm.dateHeureDebut) }}
+        {{ form_row(createSortieForm.duree) }}
+        {{ form_row(createSortieForm.nbInscriptionsMax) }}
+        {{ form_row(createSortieForm.infosSortie) }}
+        {{ form_row(createSortieForm.campus) }}
+        <div id="liste_lieu">
+            {{ form_row(createSortieForm.Lieu) }}
+        </div>
         <button>Create!</button>
         {{ form_end(createSortieForm) }}
     </div>
+    <div>
+        <button id="afficher_lieu_form">Creer un lieu!</button>
+        <button style="display: none" id="afficher_liste_lieu">Afficher la liste!</button>
+        <div style="display: none" id="formulaire_lieu">
+            {{ form_start(createLieuForm) }}
+            {{ form_widget(createLieuForm)}}
+            <button>Submit le lieu!</button>
+            {{ form_end(createLieuForm)}}
+        </div>
+    </div>
+
+    <script type="text/javascript" >
+
+        document.getElementById('afficher_lieu_form').onclick = function afficher(){
+            if(document.getElementById('formulaire_lieu').style.display == "none"){
+                document.getElementById('formulaire_lieu').style.display = "block";
+                document.getElementById('liste_lieu').style.display= "none";
+                document.getElementById('afficher_lieu_form').style.display= "none";
+                document.getElementById('afficher_liste_lieu').style.display= "block";
+            }
+        }
+
+    </script>
+    <script type="text/javascript" >
+        document.getElementById('afficher_liste_lieu').onclick = function enlever(){
+            document.getElementById('formulaire_lieu').style.display = "none";
+                document.getElementById('liste_lieu').style.display= "block";
+                document.getElementById('afficher_lieu_form').style.display= "block";
+                document.getElementById('afficher_liste_lieu').style.display= "none";
+        }
+    </script>
+
 {% endblock %}
 
 {% block title  %}{{ parent() }} | Home {% endblock %}
