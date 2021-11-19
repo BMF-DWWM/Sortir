@@ -1,14 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     {% if app.user  %}
         <h1> Hello {{ app.user.nom }}</h1>
     {% else %}
         <h1>Hello MotherFucker</h1>
     {% endif %}
-    <div>
-        {{ form(formSearch) }}
-    </div>
+    <div class="container">
+        <div class="block">
+            {{ form(formSearch) }}
+        </div>
+</div>
     <div>
         {# <table>
             <th>Nom de la sortie</th>
@@ -30,7 +33,7 @@
         </table>  #}
 
 
-        <h2>Responsive Table</h2>
+
         <div class="table-wrapper">
             <table class="fl-table">
                 <thead>

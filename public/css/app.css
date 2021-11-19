@@ -45,7 +45,7 @@ h2{
   width: 100%;
   max-width: 100%;
   white-space: nowrap;
-  background-color: white;
+  background-color: #a2d9ff;
 }
 
 .fl-table td, .fl-table th {
@@ -60,7 +60,7 @@ h2{
 
 .fl-table thead th {
   color: #ffffff;
-  background: #4FC3A1;
+  background: #2b6f93;
 }
 
 
@@ -70,7 +70,7 @@ h2{
 }
 
 .fl-table tr:nth-child(even) {
-  background: #F8F8F8;
+  background: #c1ecfd;
 }
 
 /* Responsive */
@@ -150,8 +150,7 @@ h2{
   justify-content: space-evenly;
   margin: auto;
   border: outset;
-  width: 60%;
-  height: 150%;
+  width:fit-content;
   padding: 15px;
   background: #8ed7ff;
 
@@ -161,6 +160,8 @@ h2{
   display: block;
   background: transparent;
   line-height: 2em;
+  padding: 5%;
+
 
 
 
