@@ -65,10 +65,10 @@
                                  <input type="submit" value="Modifier" name="modifier" >
                     </form>
                             {% endif %}
-                    <form method="post" action="{{ path('sortie_inscription',{'id': sortie.id}) }}">
+                    <form method="post" action="{{ path('sortie_desiste',{'id': sortie.id}) }}">
                         <input type="submit" value="Se désister" name="desiste" >
                     </form>
-                    <form method="post" action="{{ path('sortie_inscription',{'id': sortie.id}) }}">
+                    <form method="post" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
                         <input type="submit" value="Annuler une sortie" name="annuler" >
                     </form>
                         </td>

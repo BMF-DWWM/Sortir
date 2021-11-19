@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Form\CreateEtatType;
 use App\Form\CreateSortieType;
 use App\Form\SearchSortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,8 @@ class SortieController extends AbstractController
      * @Route("/sortie/create", name="sortie_create")
      */
     public function create(Request $request,
-                           EntityManagerInterface $entityManager
+                           EntityManagerInterface $entityManager,
+                            EtatRepository $etatRepository
     ): Response
     {
         $sortie = new Sortie();
@@ -29,9 +31,11 @@ class SortieController extends AbstractController
         $createSortieForm->handleRequest($request );
         $dateDebutSortie = ($createSortieForm->get('dateHeureDebut')->getData());
 
+
         $sortie->setOrganisateur($this->getUser());
 
         if ($createSortieForm->isSubmitted()&&$createSortieForm->isValid()){
+            $sortie->setEtat($etatRepository->find('4'));
             $sortie->setDateLimiteInscription($dateDebutSortie);
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -77,9 +81,39 @@ class SortieController extends AbstractController
     {
         if ($_POST["modifier"] =! null){
             $sortie= $sortieRepository->find($_GET["id"]);
-            $sortie->addMembreInscrit($this->getUser());
+            $formModifSortie = $this->createForm(CreateSortieType::class, $sortie);
+            $formModifSortie->handleRequest($request);
 //            $this->addFlash('success','Inscritption Added ! Good job.');
         }
+
+        $sorties = $sortieRepository ->findAll();
+
+
+        return $this->render('sortie/detail.html.twig',[
+            'sortie'=>$sortie,
+            'sorties'=> $sorties,
+            'formModifSortie' => $formModifSortie->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/sortie/desiste", name="sortie_desiste")
+     */
+    public function desiste(SortieRepository $sortieRepository,
+                             Request $request,
+                            EntityManagerInterface $entityManager
+    ): Response
+    {
+
+        if ($_POST["desiste"] =! null){
+            $sortie= $sortieRepository->find($_GET["id"]);
+            $sortie->removeMembreInscrit($this->getUser());
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success','You leave ! it\'s not a Good job.');
+
+        }
+
         $formSearch = $this->createForm(SearchSortieType::class);
         $search = $formSearch->handleRequest($request);
         $sorties = $sortieRepository ->findAll();
@@ -94,13 +128,39 @@ class SortieController extends AbstractController
             );
         }
 
-        return $this->render('sortie/detail.html.twig',[
-            'sortie'=>$sortie,
+        return $this->render('sortie/list.html.twig',[
             'sorties'=> $sorties,
             'formSearch' => $formSearch->createView()
         ]);
     }
-//
+    /**
+     * @Route("/sortie/annuler", name="sortie_annuler")
+     */
+    public function annuler(SortieRepository $sortieRepository,
+                            Request $request,
+                            EntityManagerInterface $entityManager
+    ): Response
+    {
+
+        if ($_POST["annuler"] =! null){
+            $sortie= $sortieRepository->find($_GET["id"]);
+            $entityManager->remove($sortie);
+            $entityManager->flush();
+            $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');
+
+        }
+
+        $formSearch = $this->createForm(SearchSortieType::class);
+        $sorties = $sortieRepository ->findAll();
+
+
+
+        return $this->render('sortie/list.html.twig',[
+            'sorties'=> $sorties,
+            'formSearch' => $formSearch->createView()
+        ]);
+    }
+
     /**
      * @Route("/sortie/inscription", name="sortie_inscription")
      */
@@ -118,18 +178,8 @@ class SortieController extends AbstractController
             $this->addFlash('success','Inscritption Added ! Good job.');
 
         }
-        if ($_POST["desiste"] =! null){
-            $sortie= $sortieRepository->find($_GET["id"]);
-            $sortie->addMembreInscrit($this->getUser());
-            $this->addFlash('success','You leave ! it\'s not a Good job.');
 
-        }
-        if ($_POST["annuler"] =! null){
-            $sortie= $sortieRepository->find($_GET["id"]);
-            $sortie->addMembreInscrit($this->getUser());
-            $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');
 
-        }
 
         $entityManager->persist($sortie);
         $entityManager->flush();

@@ -34,10 +34,10 @@ class CreateSortieType extends AbstractType
             ->add('infosSortie',null, [
                 'required' => false
             ])
-            ->add('etat', EntityType::class, [
-                'class'=> Etat::class,
-                'choice_label'=> 'libelle',
-            ])
+//            ->add('etat', EntityType::class, [
+//                'class'=> Etat::class,
+//                'choice_label'=> 'libelle',
+//            ])
             ->add('Lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom'
@@ -46,10 +46,10 @@ class CreateSortieType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => 'nom'
             ])
-            ->add('organisateur', EntityType::class, [
-                'class' => Participant::class,
-                'choice_label'=> 'nom'
-            ])
+//            ->add('organisateur', EntityType::class, [
+//                'class' => Participant::class,
+//                'choice_label'=> 'nom'
+//            ])
 //            ->add('membreInscrit')
 
         ;
