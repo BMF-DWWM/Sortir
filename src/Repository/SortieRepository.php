@@ -32,7 +32,12 @@ class SortieRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function search ($mots = null, $campus=null, $date1= null, $date2 = null){
+    public function search ($mots = null,
+                            $campus=null,
+                            $date1= null,
+                            $date2 = null,
+                            $jeSuisOrganisateur=null,
+                            $user=null){
         $querybuilder = $this->createQueryBuilder('s');
         if ($mots != null){
             $querybuilder->where('s.nom LIKE :mots ')
@@ -46,6 +51,11 @@ class SortieRepository extends ServiceEntityRepository
             $querybuilder->andWhere('s.dateHeureDebut BETWEEN :date1  and :date2')
                 ->setParameter('date1', $date1->format('Y-m-d'))
                 ->setParameter('date2', $date2->format('Y-m-d'));
+        }
+        if ($jeSuisOrganisateur != null){
+
+            $querybuilder->andWhere('s.organisateur = :user')
+                ->setParameter(':user', $user);
         }
         $query = $querybuilder->getQuery();
         return $query->getResult();
