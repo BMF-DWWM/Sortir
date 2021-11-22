@@ -67,7 +67,8 @@ class SortieController extends AbstractController
      * @Route("/sortie/list", name="sortie_list")
      */
     public function list(SortieRepository $sortieRepository,
-                        Request $request
+                        Request $request,
+                        EntityManagerInterface $entityManager
     ): Response
     {
        $sorties = $sortieRepository ->findAll();
@@ -140,33 +141,23 @@ class SortieController extends AbstractController
     ): Response
     {
 
-        if ($_POST["desiste"] =! null){
             $sortie= $sortieRepository->find($_GET["id"]);
-            $sortie->removeMembreInscrit($this->getUser());
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            $this->addFlash('success','You leave ! it\'s not a Good job.');
+            if ($sortie->getDateHeureDebut()< new \DateTime("now") ){
+                $this->addFlash('fail','Tu ne peux pas te désinscrire car l\'activité à déja commencé');
+            }elseif ($sortie->getOrganisateur()->getId() == $this->getUser()->getId()){
+                $this->addFlash('fail','Tu ne peux pas te désinscrire de ta propre activité');
+            }else
+            {
+                $sortie->removeMembreInscrit($this->getUser());
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                $this->addFlash('success','You leave ! it\'s not a Good job.');
+            }
+        return $this->redirectToRoute('sortie_list');
 
-        }
 
-        $formSearch = $this->createForm(SearchSortieType::class);
-        $search = $formSearch->handleRequest($request);
-        $sorties = $sortieRepository ->findAll();
 
-        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
-            $sorties = $sortieRepository->search(
-                $search->get('mots')->getData(),
-                $search->get('campus')->getData(),
-                $search->get('date1')->getData(),
-                $search->get('date2')->getData()
 
-            );
-        }
-
-        return $this->render('sortie/list.html.twig',[
-            'sorties'=> $sorties,
-            'formSearch' => $formSearch->createView()
-        ]);
     }
     /**
      * @Route("/sortie/annuler", name="sortie_annuler")
@@ -177,23 +168,22 @@ class SortieController extends AbstractController
     ): Response
     {
 
-        if ($_POST["annuler"] =! null){
+
             $sortie= $sortieRepository->find($_GET["id"]);
+            if ($sortie->getOrganisateur()->getId() != $this)
             $entityManager->remove($sortie);
             $entityManager->flush();
             $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');
 
-        }
-
-        $formSearch = $this->createForm(SearchSortieType::class);
-        $sorties = $sortieRepository ->findAll();
+            return $this->redirectToRoute('sortie_list');
 
 
 
-        return $this->render('sortie/list.html.twig',[
-            'sorties'=> $sorties,
-            'formSearch' => $formSearch->createView()
-        ]);
+
+
+
+
+
     }
 
     /**
@@ -205,38 +195,21 @@ class SortieController extends AbstractController
 
     ): Response
     {
-
-
-        if ($_POST["inscription"] =! null){
-            $sortie= $sortieRepository->find($_GET["id"]);
+        $sortie= $sortieRepository->find($_GET["id"]);
+        if ($sortie->getDateLimiteInscription()> new \DateTime("now") && $sortie->getMembreInscrit()->count() < $sortie->getNbInscriptionsMax()
+            && $sortie->getEtat()->getLibelle() == 'Ouverte'){
             $sortie->addMembreInscrit($this->getUser());
+            $entityManager->persist($sortie);
+            $entityManager->flush();
             $this->addFlash('success','Inscritption Added ! Good job.');
 
+
+        }else{
+            $this->addFlash('fail','Tu ne peux pas t\'inscrire à cette activité');
         }
+        return $this->redirectToRoute('sortie_list');
 
 
-
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-        $formSearch = $this->createForm(SearchSortieType::class);
-        $search = $formSearch->handleRequest($request);
-        $sorties = $sortieRepository ->findAll();
-
-
-        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
-            $sorties = $sortieRepository->search(
-                $search->get('mots')->getData(),
-                $search->get('campus')->getData(),
-                $search->get('date1')->getData(),
-                $search->get('date2')->getData()
-
-            );
-        }
-
-        return $this->render('sortie/list.html.twig',[
-            'sorties'=> $sorties,
-            'formSearch' => $formSearch->createView()
-        ]);
     }
 
     /**

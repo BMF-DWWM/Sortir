@@ -39,11 +39,11 @@
                 <thead>
                 <tr>
                     <th>Nom de la sortie</th>
+                    <th>Infos</th>
                     <th>Date de la sortie</th>
                     <th>Clôture</th>
                     <th>Inscrits/Places</th>
                     <th>Etat</th>
-                    <th>Infos</th>
                     <th>Organisateur</th>
                     <th>Action</th>
 
@@ -61,21 +61,28 @@
                         <td>{{ sortie.membreInscrit.count }}/{{ sortie.nbInscriptionsMax }} </td>
                         <td>{{ sortie.etat.libelle }}</td>
                         <td>{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</td>
-                    <form method="post" action="{{ path('sortie_inscription',{'id': sortie.id}) }}">
+                    {% if sortie.membreInscrit.count < sortie.nbInscriptionsMax %}
+
                         <td>
-                            <input type="submit" value="S'incrire" name="inscription">
-                    </form>
-                            {% if app.user.id==sortie.organisateur.id %}
-                    <form method="post" action="{{ path('sortie_modifier',{'id': sortie.id}) }}">
-                                 <input type="submit" value="Modifier" name="modifier" >
-                    </form>
+                            {% if sortie.dateLimiteInscription> date('now') %}
+                            <form method="post" name="inscription" action="{{ path('sortie_inscription',{'id': sortie.id}) }} ">
+                                    <input type="submit" value="S'incrire" name="inscription">
+                            </form>
                             {% endif %}
-                    <form method="post" action="{{ path('sortie_desiste',{'id': sortie.id}) }}">
-                        <input type="submit" value="Se désister" name="desiste" >
-                    </form>
-                    <form method="post" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
-                        <input type="submit" value="Annuler une sortie" name="annuler" >
-                    </form>
+                            {% endif %}
+                            {% if app.user!= null and app.user.id ==sortie.organisateur.id %}
+                            <form method="post" name="modifier" action="{{ path('sortie_modifier',{'id': sortie.id}) }}">
+                                         <input type="submit" value="Modifier" name="modifier" >
+                            </form>
+                            {% endif %}
+                            {% if app.user!= null and app.user.id !=sortie.organisateur.id and  sortie.dateHeureDebut> date('now')%}
+                            <form method="post" name="desister" action="{{ path('sortie_desiste',{'id': sortie.id}) }}">
+                                <input type="submit" value="Se désister" name="desister" >
+                            </form>
+                            {% endif %}
+                            <form method="post" name="annuler" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
+                                <input type="submit" value="Annuler une sortie" name="annuler" >
+                            </form>
                         </td>
 
 
