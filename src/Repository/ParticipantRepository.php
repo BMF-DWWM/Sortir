@@ -36,6 +36,22 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->_em->flush();
     }
 
+    public function search ($mots = null,
+                            $campus=null,
+                            $user=null){
+        $querybuilder = $this->createQueryBuilder('p');
+        if ($mots != null){
+            $querybuilder->where('p.nom LIKE :mots ')
+                ->setParameter('mots','%'. $mots.'%');
+        }
+        if ($campus != null){
+            $querybuilder->andWhere(' p.campus = :campus ')
+                ->setParameter('campus', $campus);
+        }
+        $query = $querybuilder->getQuery();
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Participant[] Returns an array of Participant objects
     //  */

@@ -8,39 +8,86 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="block">
+    <h1>Bonjour {{ app.user.nom }} ! ✅</h1>
     <h3>Bienvenue dans votre outil de gestion Administrateur</h3>
 
-{#    <div class="form">#}
-{#        {{ form_start(createCaampusForm) }}#}
+    <div>
+        <div class="form">
+            <a href="{{ path('admin_registration_view') }}" title="Inscription">Inscrire un nouveau participant</a>
+        </div>
 
-{#        {{ form_widget(createCaampusForm) }}#}
-{#        <button>Create!</button>#}
-{#        {{ form_end(createCaampusForm) }}#}
+        <div class="form">
+            <a href="{{ path('lieu_create') }}" title="Create Lieu">Ajouter un lieu</a>
+        </div>
+
+        <div class="form">
+           <a href="{{ path('campus_create') }}" title="Create Campus">Ajouter un campus</a>
+        </div>
+
+        <div class="form">
+            <a href="{{ path('etat_create') }}" title="Etat">Ajouter un nouvel état</a>
+        </div>
+
+        <div class="form">
+            <a href="{{ path('ville_create') }}" title="Ville">Ajouter une ville</a>
+        </div>
+
+        <div class="form">
+            <a href="{{ path('sortie_create') }}" title="Sortie">Créer une sortie</a>
+        </div>
+    </div>
+
+    {# Affichage participants #}
+{#    <div class="table-wrapper">#}
+{#        <table class="fl-table">#}
+{#            <thead>#}
+{#            <tr>#}
+{#                <th>Prénom</th>#}
+{#                <th>Nom</th>#}
+{#                <th>Date de la sortie</th>#}
+{#                <th>Clôture</th>#}
+{#                <th>Inscrits/Places</th>#}
+{#                <th>Etat</th>#}
+{#                <th>Infos</th>#}
+{#                <th>Organisateur</th>#}
+{#                <th>Action</th>#}
+
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#            {% for participant in participants %}#}
+
+{#                <tr>#}
+
+{#                    <td>{{  }}</td>#}
+{#                    <td>{{ sortie.infosSortie }}</td>#}
+{#                    <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i:s') }}</td>#}
+{#                    <td>{{ sortie.dateLimiteInscription |date('d/m/Y H:i:s')}}</td>#}
+{#                    <td>{{ sortie.membreInscrit.count }}/{{ sortie.nbInscriptionsMax }} </td>#}
+{#                    <td>{{ sortie.etat.libelle }}</td>#}
+{#                    <td>{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</td>#}
+{#                    <form method="post" action="{{ path('sortie_inscription',{'id': sortie.id}) }}">#}
+{#                        <td>#}
+{#                            <input type="submit" value="S'incrire" name="inscription">#}
+{#                    </form>#}
+{#                    {% if app.user.id==sortie.organisateur.id %}#}
+{#                        <form method="post" action="{{ path('sortie_modifier',{'id': sortie.id}) }}">#}
+{#                            <input type="submit" value="Modifier" name="modifier" >#}
+{#                        </form>#}
+{#                    {% endif %}#}
+{#                    <form method="post" action="{{ path('sortie_desiste',{'id': sortie.id}) }}">#}
+{#                        <input type="submit" value="Se désister" name="desiste" >#}
+{#                    </form>#}
+{#                    <form method="post" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">#}
+{#                        <input type="submit" value="Annuler une sortie" name="annuler" >#}
+{#                    </form>#}
+{#                    </td>#}
+
+{#                </tr>#}
+{#            {% endfor %}#}
+{#            <tbody>#}
+{#        </table>#}
 {#    </div>#}
-
-{#    <div class="form">#}
-{#        {{ form_start(createLieuForm) }}#}
-
-{#        {{ form_widget(createLieuForm) }}#}
-{#        <button>Create!</button>#}
-{#        {{ form_end(createLieuForm) }}#}
-{#    </div>#}
-
-{#    <div class="form">#}
-{#        {{ form_start(createVilleForm) }}#}
-
-{#        {{ form_widget(createVilleForm) }}#}
-{#        <button>Create!</button>#}
-{#        {{ form_end(createVilleForm) }}#}
-{#    </div>#}
-
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/Sortir/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/Sortir/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code></li>
-    </ul>
 </div>
 {% endblock %}

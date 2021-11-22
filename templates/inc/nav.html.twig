@@ -10,14 +10,10 @@
 
     </ul>
 
-    <ul>Options :
-        <li><a href="{{ path('campus_create') }}" title="Create Campus">Create Campus</a></li>
-        <li><a href="{{ path('etat_create') }}" title="Create Etat">Create Etat</a></li>
-        <li><a href="{{ path('lieu_create') }}" title="Create lieu">Create Lieu</a></li>
-        <li><a href="{{ path('sortie_create') }}" title="Create Sortie">Create Sortie</a></li>
-        <li><a href="{{ path('ville_create') }}" title="Create Ville">Create Ville</a></li>
+    <ul>Options d'administration :
         {% if app.user %}
             {% if is_granted("ROLE_ADMIN") %}
+                <a href="{{ path('admin_view') }}">Tableau de bord</a>
             {% endif %}
     </ul>
     <ul>
