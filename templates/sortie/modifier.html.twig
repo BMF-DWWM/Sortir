@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if app.user  %}
+        <h1> Hello {{ app.User.prenom}} {{ app.user.nom }}</h1>
+    {% else %}
+        <h1>Hello MotherFucker</h1>
+    {% endif %}
+    <div class="form">
+        {{ form_start(formModifSortie) }}
+
+        {{ form_widget(formModifSortie) }}
+        <button>Update!</button>
+        {{ form_end(formModifSortie) }}
+    </div>
+{% endblock %}
+
+{% block title  %}{{ parent() }} | Home {% endblock %}

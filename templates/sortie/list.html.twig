@@ -1,14 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     {% if app.user  %}
         <h1> Hello {{ app.user.nom }}</h1>
     {% else %}
         <h1>Hello MotherFucker</h1>
     {% endif %}
-    <div>
-        {{ form(formSearch) }}
-    </div>
+    <div class="container">
+        <div class="block">
+            {{ form(formSearch) }}
+        </div>
+</div>
     <div>
         {# <table>
             <th>Nom de la sortie</th>
@@ -30,7 +33,7 @@
         </table>  #}
 
 
-        <h2>Responsive Table</h2>
+
         <div class="table-wrapper">
             <table class="fl-table">
                 <thead>
@@ -40,6 +43,7 @@
                     <th>Clôture</th>
                     <th>Inscrits/Places</th>
                     <th>Etat</th>
+                    <th>Infos</th>
                     <th>Organisateur</th>
                     <th>Action</th>
 
@@ -51,6 +55,7 @@
                 <tr>
 
                         <td><a href="{{ path('sortie_detail',{'id':sortie.id})}}">{{ sortie.nom }}</a></td>
+                        <td>{{ sortie.infosSortie }}</td>
                         <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i:s') }}</td>
                         <td>{{ sortie.dateLimiteInscription |date('d/m/Y H:i:s')}}</td>
                         <td>{{ sortie.membreInscrit.count }}/{{ sortie.nbInscriptionsMax }} </td>
@@ -61,10 +66,16 @@
                             <input type="submit" value="S'incrire" name="inscription">
                     </form>
                             {% if app.user.id==sortie.organisateur.id %}
-                    <form method="post" action="{{ path('sortie_inscription',{'id': sortie.id}) }}">
+                    <form method="post" action="{{ path('sortie_modifier',{'id': sortie.id}) }}">
                                  <input type="submit" value="Modifier" name="modifier" >
                     </form>
                             {% endif %}
+                    <form method="post" action="{{ path('sortie_desiste',{'id': sortie.id}) }}">
+                        <input type="submit" value="Se désister" name="desiste" >
+                    </form>
+                    <form method="post" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
+                        <input type="submit" value="Annuler une sortie" name="annuler" >
+                    </form>
                         </td>
 
 
