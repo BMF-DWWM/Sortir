@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Lieu;
 use App\Form\CreateLieuformType;
+use App\Form\CreateSortieType;
+use App\Form\SearchParticipantType;
 use App\Form\SearchSortieType;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +20,31 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="admin_view")
      */
-    public function view(): Response
+    public function view(ParticipantRepository $participantRepository, Request $request): Response
     {
-        return $this->render('admin/index.html.twig', [
+        $participants = $participantRepository ->findAll();
+
+
+        $formSearch = $this->createForm(SearchParticipantType::class);
+        $search = $formSearch->handleRequest($request);
+
+
+        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
+            $participants = $participantRepository->search(
+                $search->get('mots')->getData(),
+                $search->get('campus')->getData(),
+                $this->getUser()
+
+            );
+        }
+
+
+        return $this->render('admin/index.html.twig',[
+            'participants'=> $participants,
             'controller_name' => 'AdminController',
+            'formSearch' => $formSearch->createView()
         ]);
+
     }
 
     /**
@@ -49,34 +72,76 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/participant/list", name="sortie_list")
+     * @Route("/admin/participant/list", name="participant_list")
      */
     public function list(ParticipantController $participantRepository,
                          Request $request
     ): Response
     {
-        $participants = $participantRepository ->findAll();
+        $participants = $participantRepository->findAll();
 
 
         $formSearch = $this->createForm(SearchParticipantType::class);
         $search = $formSearch->handleRequest($request);
 
 
-        if ($formSearch->isSubmitted()&&$formSearch->isValid()){
+        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
             $participants = $participantRepository->search(
                 $search->get('mots')->getData(),
                 $search->get('campus')->getData(),
-                $search->get('date1')->getData(),
-                $search->get('date2')->getData(),
-                $search->get('jeSuisOrganisateur')->getData(),
                 $this->getUser()
 
             );
         }
 
-        return $this->render('admin/index.html.twig',[
-            'participants'=> $participants,
+
+        return $this->render('admin/index.html.twig', [
+            'participants' => $participants,
             'formSearch' => $formSearch->createView()
         ]);
     }
+
+    /**
+     * @Route("/admin/participant/inactif", name="participant_inactif")
+     *
+     */
+        public function inactif(ParticipantRepository $participantRepository, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $participant= $participantRepository->find($_GET["id"]);
+        $participant->setActif(false);
+        $entityManager->persist($participant);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_view');
+    }
+    /**
+     * @Route("/admin/participant/actif", name="participant_actif")
+     *
+     */
+        public function actif(ParticipantRepository $participantRepository, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $participant= $participantRepository->find($_GET["id"]);
+        $participant->setActif(true);
+        $entityManager->persist($participant);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('admin_view');
+    }
+
+    /**
+     * @Route("/admin/participant/suppression", name="participant_suppression")
+     *
+     */
+        public function suppression(ParticipantRepository $participantRepository, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $participant= $participantRepository->find($_GET["id"]);
+
+        $entityManager->remove($participant);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('admin_view');
+    }
+
 }
