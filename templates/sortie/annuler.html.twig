@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title  %}{{ parent() }} | Annuler sortie {% endblock %}
+
+{% block body %}
+    {{ form_start(formRaionANnulation) }}
+    {{ form_widget(formRaionANnulation) }}
+    <button>Valider</button>
+    {{ form_end(formRaionANnulation) }}
+{% endblock %}
+

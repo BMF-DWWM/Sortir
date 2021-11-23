@@ -70,7 +70,7 @@
                             </form>
                             {% endif %}
                             {% endif %}
-                            {% if app.user!= null and app.user.id ==sortie.organisateur.id %}
+                            {% if app.user!= null and app.user.id ==sortie.organisateur.id and sortie.dateHeureDebut> date('now') %}
                             <form method="post" name="modifier" action="{{ path('sortie_modifier',{'id': sortie.id}) }}">
                                          <input type="submit" value="Modifier" name="modifier" >
                             </form>
@@ -80,9 +80,9 @@
                                 <input type="submit" value="Se désister" name="desister" >
                             </form>
                             {% endif %}
-                            {% if app.user!= null and app.user.id ==sortie.organisateur.id %}
-                            <form method="post" name="annuler" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
-                                <input type="submit" value="Annuler une sortie" name="annuler" >
+                            {% if app.user!= null and app.user.id ==sortie.organisateur.id and sortie.dateHeureDebut> date('now') and sortie.etat.libelle != "Annulee"%}
+                            <form  method="post" name="valider_annuler" id="valider_annuler" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
+                                <input  type="submit" value="Annuler une sortie" id="annuler" name="annuler" >
                             </form>
                             {% endif %}
 
@@ -96,6 +96,8 @@
                 <tbody>
             </table>
         </div>
+
+
 
 
 

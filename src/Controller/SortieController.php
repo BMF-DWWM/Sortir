@@ -8,6 +8,7 @@ use App\Entity\Sortie;
 use App\Form\CreateEtatType;
 use App\Form\CreateLieuformType;
 use App\Form\CreateSortieType;
+use App\Form\RaisonAnnulerType;
 use App\Form\SearchSortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -114,10 +115,12 @@ class SortieController extends AbstractController
                 $entityManager->persist($sortie);
                 $entityManager->flush();
                 $this->addFlash('success','Modif Added ! Good job.');
-
+                return $this->redirectToRoute('sortie_list');
             }
 
-        return $this->redirectToRoute('sortie_list');
+        return $this->render('sortie/modifier.html.twig',[
+            'formModifSortie'=> $formModifSortie->createView()
+        ]);
     }
 
     /**
@@ -164,15 +167,25 @@ class SortieController extends AbstractController
             }elseif ($sortie->getDateHeureDebut()< new \DateTime("now")) {
                 $this->addFlash('success','Vous ne pouvez pas annuler une sortie qui a deja commencer');
                 }else{
-                $etatAnnulee=$etatRepository->searchEtatAnnulee();
-                $sortie->setEtat(array_values($etatAnnulee)[0]);
-                $entityManager->persist($sortie);
-                $entityManager->flush();
-                $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');
+                $formRaisonAnnulation = $this->createForm(RaisonAnnulerType::class);
+                $formRaisonAnnulation->handleRequest($request);
+                if ($formRaisonAnnulation->isSubmitted()&& $formRaisonAnnulation->isValid()){
+                    $etatAnnulee=$etatRepository->searchEtatAnnulee();
+                    $sortie->setEtat(array_values($etatAnnulee)[0]);
+                    $sortie->setInfosSortie($sortie->getInfosSortie()." Raison de l'annulation :".$formRaisonAnnulation['raison']->getData());
+                    $entityManager->persist($sortie);
+                    $entityManager->flush();
+                    $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');
+                    return $this->redirectToRoute('sortie_list');
+                }
             }
 
+            return $this->render('sortie/annuler.html.twig',[
+                'formRaionANnulation'=>$formRaisonAnnulation->createView()
+            ]);
 
-            return $this->redirectToRoute('sortie_list');
+
+
 
 
 
