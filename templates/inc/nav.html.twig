@@ -4,6 +4,7 @@
         <a href="{{ path('main_home') }}" title="Home">Home</a>
         <a href="{{ path('sortie_list') }}" title="sorties">Sorties</a>
         {% if app.user != null %}
+        <a href="{{ path('sortie_create') }}" title="Sortie">Créer une sortie</a>
         <a href="{{ path('participant_view',{'id': app.user.id}) }}" title="profil">Profil</a>
         <a href="{{ path('app_logout') }}" title="deconnexion">Se déconnecter</a>
         {% endif %}
