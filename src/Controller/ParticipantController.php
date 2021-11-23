@@ -23,11 +23,8 @@ class ParticipantController extends AbstractController
     public function view(ParticipantRepository $participantRepository,Request $request): Response
     {
         $user = $participantRepository->find($_GET["id"]);
-        $form = $this->createForm(UpdateProfilType::class,$user);
-        $form->handleRequest($request);
         return $this->render('participant/view.html.twig', [
             'user' => $user,
-            'UpdateProfil' => $form->createView(),
         ]);
     }
 

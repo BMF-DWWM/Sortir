@@ -1,15 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}   {{ parent() }} | Modifier mon profil {% endblock %}
+{% block title %}   {{ parent()}} | Afficher profil {% endblock %}
 
 {% block body %}
 
-
-    {{ form_start(UpdateProfil) }}
-    {{ form_widget(UpdateProfil) }}
-    <input type="submit">
-    {{ form_end(UpdateProfil) }}
-
+    <div class="container">
+        <div class="block">
+            <div><label>Pseudo : </label><tp>{{ user.pseudo }}</tp></div>
+            <div><label>Prénom : </label><tp>{{ user.prenom }}</tp></div>
+            <div><label>Nom : </label><tp>{{ user.nom }}</tp></div>
+            <div><label>Téléphone : </label><tp>{{ user.telephone}}</tp></div>
+            <div><label>Email : </label><tp>{{ user.email }}</tp></div>
+            <div><label>Campus : </label><tp>{{ user.campus.nom}}</tp></div>
+            <a href="{{ path('sortie_list') }}">Retour</a>
+        </div>
+    </div>
 
 {% endblock %}
 
