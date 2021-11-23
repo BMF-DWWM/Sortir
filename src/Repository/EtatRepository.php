@@ -19,6 +19,14 @@ class EtatRepository extends ServiceEntityRepository
         parent::__construct($registry, Etat::class);
     }
 
+
+    public function searchEtatAnnulee(){
+        $querybuilder = $this->createQueryBuilder('e');
+        $querybuilder->where('e.libelle = \'Annulee\'');
+        $query = $querybuilder->getQuery();
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Etat[] Returns an array of Etat objects
     //  */

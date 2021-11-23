@@ -108,28 +108,16 @@ class SortieController extends AbstractController
             $formModifSortie = $this->createForm(CreateSortieType::class, $sortie);
             $formModifSortie->handleRequest($request);
 
-            $sorties = $sortieRepository ->findAll();
-            $formSearch = $this->createForm(SearchSortieType::class);
 
 
             if ($formModifSortie->isSubmitted()&&$formModifSortie->isValid()){
                 $entityManager->persist($sortie);
                 $entityManager->flush();
                 $this->addFlash('success','Modif Added ! Good job.');
-                return $this->render('sortie/list.html.twig',[
-                    'sorties'=> $sorties,
-                    'formSearch' => $formSearch->createView()
-                ]);
+
             }
 
-
-
-
-
-        return $this->render('sortie/modifier.html.twig',[
-            'sortie'=>$sortie,
-            'formModifSortie' => $formModifSortie->createView()
-        ]);
+        return $this->redirectToRoute('sortie_list');
     }
 
     /**
@@ -164,16 +152,25 @@ class SortieController extends AbstractController
      */
     public function annuler(SortieRepository $sortieRepository,
                             Request $request,
-                            EntityManagerInterface $entityManager
+                            EntityManagerInterface $entityManager,
+                            EtatRepository $etatRepository
     ): Response
     {
 
 
             $sortie= $sortieRepository->find($_GET["id"]);
-            if ($sortie->getOrganisateur()->getId() != $this)
-            $entityManager->remove($sortie);
-            $entityManager->flush();
-            $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');
+            if ($sortie->getOrganisateur()->getId() != $this->getUser()->getId()){
+                $this->addFlash('success','Vous ne pouvez pas annuler une sortie dont vous nêtes pas l\'organisateur');
+            }elseif ($sortie->getDateHeureDebut()< new \DateTime("now")) {
+                $this->addFlash('success','Vous ne pouvez pas annuler une sortie qui a deja commencer');
+                }else{
+                $etatAnnulee=$etatRepository->searchEtatAnnulee();
+                $sortie->setEtat(array_values($etatAnnulee)[0]);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');
+            }
+
 
             return $this->redirectToRoute('sortie_list');
 

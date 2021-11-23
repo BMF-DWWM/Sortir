@@ -80,9 +80,12 @@
                                 <input type="submit" value="Se désister" name="desister" >
                             </form>
                             {% endif %}
+                            {% if app.user!= null and app.user.id ==sortie.organisateur.id %}
                             <form method="post" name="annuler" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
                                 <input type="submit" value="Annuler une sortie" name="annuler" >
                             </form>
+                            {% endif %}
+
                         </td>
 
 
