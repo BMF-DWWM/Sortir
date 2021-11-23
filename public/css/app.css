@@ -1,5 +1,5 @@
 *{
-  box-sizing: border-box;
+  box-sizing: content-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
@@ -8,14 +8,14 @@ body{
   flex-direction: column;
   font-family: Helvetica;
   -webkit-font-smoothing: antialiased;
-  background: rgba( 71, 147, 227, 1);
+  background: radial-gradient(#324960, #4793E3FF );
 }
 
 h1{
   display: flex;
   justify-content: center;
   font-family: fantasy;
-  -webkit-text-fill-color: #ffffff;
+  -webkit-text-fill-color: #8ed7ff;
 
 
 }
@@ -25,8 +25,73 @@ h2{
   font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: white;
+  color: #99fff0;
   padding: 30px 0;
+}
+
+
+
+/* Button Styles */
+
+button{
+  display: flex;
+  margin: auto;
+  padding: 5px;
+  font-family: fantasy;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #c0f8cc;
+  transition: 0.5s;
+  background: #AAAAAA}
+
+input{
+  display: flex;
+  margin: auto;
+  padding: 5px;
+  font-family: fantasy;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #c0f8cc;
+  transition: 0.5s;
+  background: #FFFFFF;
+}
+
+.button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  width: 5em;
+  margin: 0 auto;
+  min-height: 2px;
+  font-family: fantasy;
+  font-size: larger;
+}
+
+.btn {
+  flex: 1 1 auto;
+  margin: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #005952;
+  /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
+  box-shadow: 0 0 10px #c0f8cc;
+  border-radius: 10px;
+  text-decoration: none;
+
+}
+
+.btn:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+
+.btn-1 {
+  background-image: linear-gradient(to right, #d8f8c1 0%, #85a7fd 51%, #e7fcd8 100%);
+}
+
+.btn-2 {
+  background-image: linear-gradient(to right, #617bc0 0%, #e5ffcc 51%, #85a7fd 100%);
 }
 
 /* Table Styles */
@@ -139,10 +204,18 @@ h2{
   }
 }
 
+a{
+  text-decoration: none;
+  color: #9af665;
+
+}
+
 .form{
   display: flex;
-  justify-content: center;
-  align-content: space-between;
+  align-items: stretch;
+  flex-direction: row;
+  justify-content: space-around;
+
 }
 
 .container{
@@ -150,9 +223,9 @@ h2{
   justify-content: space-evenly;
   margin: auto;
   border: outset;
-  width:fit-content;
-  padding: 15px;
-  background: #8ed7ff;
+  width:40%;
+
+  background: rgba(142, 215, 255, 0.73);
 
 }
 
@@ -160,12 +233,11 @@ h2{
   display: block;
   background: transparent;
   line-height: 2em;
-  padding: 5%;
-
-
-
+  padding: 20px;
 
 }
+
+
 label{
   font-weight: bold;
   margin: 2px;
