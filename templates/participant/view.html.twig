@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}   {{ parent() }} | Modifier mon profil {% endblock %}
+
+{% block body %}
+
+
+    {{ form_start(UpdateProfil) }}
+    {{ form_widget(UpdateProfil) }}
+    <input type="submit">
+    {{ form_end(UpdateProfil) }}
+
+
+{% endblock %}
+
