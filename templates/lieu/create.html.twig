@@ -1,20 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div>
     {% if app.user  %}
         <h1> Hello {{ app.User.prenom}} {{ app.user.nom }}</h1>
     {% else %}
         <h1>Bonjour visiteur</h1>
     {% endif %}
-    <div class="form">
+    <div class="container">
+        <div class="block">
         {{ form_start(createLieuForm) }}
 
         {{ form_widget(createLieuForm) }}
-        <button>Create!</button>
+        <button class="button btn btn-2">Create!</button>
         {{ form_end(createLieuForm) }}
+        </div>
     </div>
 
-    <a href="{{ path('admin_view') }}" title="retour">Retour</a>
+    <a class="button btn btn-1" href="{{ path('admin_view') }}" title="retour">Retour</a>
+    </div>
 {% endblock %}
 
 {% block title  %}{{ parent() }} | Home {% endblock %}
