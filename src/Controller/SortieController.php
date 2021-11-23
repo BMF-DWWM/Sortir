@@ -51,12 +51,14 @@ class SortieController extends AbstractController
 
 
         if ($createSortieForm->isSubmitted()&&$createSortieForm->isValid()){
-            $sortie->setEtat($etatRepository->find('4'));
+            $etatOuvert=$etatRepository->searchEtatOuverte();
+            $sortie->setEtat(array_values($etatOuvert)[0]);
             $sortie->setDateLimiteInscription($dateDebutSortie);
             $sortie->addMembreInscrit($this->getUser());
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Sortie Added ! Good job.');
+            return $this->redirectToRoute('sortie_list');
         }
         return $this->render('sortie/create.html.twig',[
             'createLieuForm'=> $createLieuForm->createView(),

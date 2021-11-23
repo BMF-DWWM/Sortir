@@ -27,6 +27,13 @@ class EtatRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function searchEtatOuverte(){
+        $querybuilder = $this->createQueryBuilder('e');
+        $querybuilder->where('e.libelle = \'Ouverte\'');
+        $query = $querybuilder->getQuery();
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Etat[] Returns an array of Etat objects
     //  */
