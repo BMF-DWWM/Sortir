@@ -57,9 +57,12 @@ class SortieRepository extends ServiceEntityRepository
             $querybuilder->andWhere('s.organisateur = :user')
                 ->setParameter(':user', $user);
         }
+
         $query = $querybuilder->getQuery();
         return $query->getResult();
     }
+
+
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */
