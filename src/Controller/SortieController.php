@@ -8,6 +8,7 @@ use App\Entity\Sortie;
 use App\Form\CreateEtatType;
 use App\Form\CreateLieuformType;
 use App\Form\CreateSortieType;
+use App\Form\ListVilleType;
 use App\Form\RaisonAnnulerType;
 use App\Form\SearchSortieType;
 use App\Repository\EtatRepository;
@@ -34,6 +35,7 @@ class SortieController extends AbstractController
         $createSortieForm->handleRequest($request );
         $dateDebutSortie = ($createSortieForm->get('dateHeureDebut')->getData());
         $sortie->setOrganisateur($this->getUser());
+
 
         $lieu = new Lieu();
         $createLieuForm= $this->createForm(CreateLieuformType::class,$lieu);

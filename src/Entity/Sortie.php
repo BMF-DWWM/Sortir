@@ -28,7 +28,7 @@ class Sortie
     private $nom;
 
     /**
-     * @Assert\GreaterThan("now")
+     * @Assert\GreaterThanOrEqual("now")
      * @ORM\Column(type="datetime")
      */
     private $dateHeureDebut;
