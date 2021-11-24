@@ -12,28 +12,28 @@
     <h1>Bonjour {{ app.user.nom }} ! ✅</h1>
     <h3>Bienvenue dans votre outil de gestion Administrateur</h3>
 
-    <div>
-        <div class="form">
+    <div class="form">
+        <div>
             <a href="{{ path('admin_registration_view') }}" title="Inscription">Inscrire un nouveau participant</a>
         </div>
 
-        <div class="form">
+        <div>
             <a href="{{ path('lieu_create') }}" title="Create Lieu">Ajouter un lieu</a>
         </div>
 
-        <div class="form">
+        <div>
            <a href="{{ path('campus_create') }}" title="Create Campus">Ajouter un campus</a>
         </div>
 
-        <div class="form">
+        <div>
             <a href="{{ path('etat_create') }}" title="Etat">Ajouter un nouvel état</a>
         </div>
 
-        <div class="form">
+        <div>
             <a href="{{ path('ville_create') }}" title="Ville">Ajouter une ville</a>
         </div>
 
-        <div class="form">
+        <div>
             <a href="{{ path('sortie_create') }}" title="Sortie">Créer une sortie</a>
         </div>
     </div>

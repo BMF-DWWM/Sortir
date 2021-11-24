@@ -232,8 +232,12 @@ class SortieController extends AbstractController
     public function detail(Sortie $sortie
     ): Response
     {
+        $listeMembresInscrits= $sortie->getMembreInscrit();
+
+
         return $this->render('sortie/detail.html.twig',[
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'membreInscrit' => $listeMembresInscrits
         ]);
     }
 
