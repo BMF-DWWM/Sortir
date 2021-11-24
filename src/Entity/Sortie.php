@@ -23,35 +23,35 @@ class Sortie
 
     /**
      * @Assert\NotBlank(message="Donner un nom à la sortie ")
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nom;
 
     /**
-     * @Assert\GreaterThanOrEqual("now")
-     * @ORM\Column(type="datetime")
+     * @Assert\GreaterThanOrEqual("-1 minute")
+     * @ORM\Column(type="datetime", nullable=true , options={"default": "CURRENT_TIMESTAMP"})
      */
     private $dateHeureDebut;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $duree;
 
     /**
      *  @Assert\LessThan(propertyPath="dateHeureDebut")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateLimiteInscription;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $nbInscriptionsMax;
 
     /**
      *@Assert\Length(min=10, minMessage="Please right a description with more than 10 char")
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $infosSortie;
 

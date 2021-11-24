@@ -31,6 +31,7 @@ class SortieController extends AbstractController
     ): Response
     {
         $sortie = new Sortie();
+        $sortie->setDateHeureDebut(new \DateTime());
         $createSortieForm = $this->createForm(CreateSortieType::class,$sortie);
         $createSortieForm->handleRequest($request );
         $dateDebutSortie = ($createSortieForm->get('dateHeureDebut')->getData());

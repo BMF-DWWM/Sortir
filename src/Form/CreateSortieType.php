@@ -10,6 +10,7 @@ use App\Entity\Sortie;
 use App\Entity\Ville;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,7 +30,8 @@ class CreateSortieType extends AbstractType
             ->add('nom', TextType::class,[])
             ->add('dateHeureDebut', DateTimeType::class,[
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('duree', TimeType::class)
 //            ->add('dateLimiteInscription')
@@ -42,12 +44,13 @@ class CreateSortieType extends AbstractType
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nom',
-                'mapped'=>false
+                'mapped'=>false,
+                'placeholder' => 'Choisir une ville'
             ])
 
-            ->add('Lieu', EntityType::class, [
-                'class' => Lieu::class,
-                'choice_label' => 'nom'
+            ->add('Lieu', ChoiceType::class, [
+                'required'=> false,
+                'placeholder' => 'Choisir une ville'
             ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
@@ -58,18 +61,19 @@ class CreateSortieType extends AbstractType
         ;
 
         $formModifier= function (FormInterface $form, Ville $ville=null){
-            $lieux = null === $ville ? [] :$ville->getLieux();
-
-            $form->add('lieu', EntityType::class, [
-               'class'=>Lieu::class,
+            $lieux = null === $ville ? [] : $ville->getLieux();
+            dump($lieux);
+            $form->add('Lieu', EntityType::class, [
+                'class'=>Lieu::class,
                 'choices'=>$lieux,
-                'choice_label' => 'nom'
+                'choice_label' => 'nom',
+
             ]);
         };
 
         $builder->get('ville')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event)use ($formModifier){
+            function (FormEvent $event) use ($formModifier){
                 $ville = $event->getForm()->getData();
                 $formModifier($event->getForm()->getParent(), $ville);
             }

@@ -25,7 +25,10 @@ class LieuController extends AbstractController
         $createLieuForm = $this->createForm(CreateLieuformType::class,$lieu);
         $createLieuForm->handleRequest($request );
 
+
+
         if ($createLieuForm->isSubmitted()&&$createLieuForm->isValid()){
+
             $entityManager->persist($lieu);
             $entityManager->flush();
             $this->addFlash('success','Lieu Added ! Good job.');
