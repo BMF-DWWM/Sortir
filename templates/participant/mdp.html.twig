@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}   {{ parent() }} | Modifier mon mot de passe {% endblock %}
+
+{% block body %}
+
+    {{ form_start(UpdatePass) }}
+    {{ form_widget(UpdatePass) }}
+    <input type="submit">
+    {{ form_end(UpdatePass) }}
+
+
+{% endblock %}
+

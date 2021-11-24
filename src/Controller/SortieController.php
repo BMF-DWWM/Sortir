@@ -13,6 +13,7 @@ use App\Form\RaisonAnnulerType;
 use App\Form\SearchSortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,7 +79,6 @@ class SortieController extends AbstractController
     ): Response
     {
        $sorties = $sortieRepository ->findAll();
-
 
        $formSearch = $this->createForm(SearchSortieType::class);
        $search = $formSearch->handleRequest($request);
@@ -233,9 +233,14 @@ class SortieController extends AbstractController
     public function detail(Sortie $sortie
     ): Response
     {
+        $listeMembresInscrits= $sortie->getMembreInscrit();
+
+
         return $this->render('sortie/detail.html.twig',[
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'membreInscrit' => $listeMembresInscrits
         ]);
     }
+
 
 }

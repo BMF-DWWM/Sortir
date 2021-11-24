@@ -14,6 +14,7 @@
             <div><label>Nombre de places : </label><tp>{{ sortie.nbInscriptionsMax }}</tp></div>
             <div><label>Durée : </label><tp>{{ sortie.duree|date('H:i:s')}}</tp></div>
             <div><label>Description et infos : </label><tp>{{ sortie.infosSortie }}</tp></div>
+            <div><label>Organisateur : </label><tp><a style="color: #b0903e; font-weight:bold; font-size: medium" href="{{ path('participant_view', { 'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a></tp></div>
         </div>
 
         <div class="block">
@@ -25,6 +26,35 @@
             <div><label>Longitude : </label><tp>{{ sortie.lieu.longitude }}</tp></div>
         </div>
     </div>
+
+    <div class="table-wrapper">
+        <table class="fl-table">
+            <thead>
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>E-mail</th>
+                <th>Téléphone</th>
+                <th>Actif/Inactif</th>
+                <th>Action</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for participant in membreInscrit  %}
+
+            <tr>
+                <td><a style="color: #b0903e; font-weight:bold; font-size: medium" href="{{ path('participant_view', { 'id': sortie.organisateur.id}) }}">{{ participant.prenom }}</td>
+                <td>{{ participant.nom }}</td>
+                <td>{{ participant.email }}</td>
+                <td>{{ participant.telephone }}</td>
+
+            </tr>
+            {% endfor %}
+            <tbody>
+        </table>
+    </div>
+
 
 
 {% endblock %}
