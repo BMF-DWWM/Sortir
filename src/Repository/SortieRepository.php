@@ -70,18 +70,19 @@ class SortieRepository extends ServiceEntityRepository
                     ->setParameter(':userId', $user);
         }
         if ($jeSuisPasInscrit != false){
-//            $subquery = $this->createQueryBuilder('a')
-//                ->innerJoin('s.membreInscrit', 'p', 'a.id=p.sortie_id')
+            $subquery = $this->createQueryBuilder('a')
+                ->select('a.id')
+                ->innerJoin('a.membreInscrit','p','a.id=p.sortie_id' )
+                ->andWhere('p.id= :userId1');
+
+
+            $querybuilder
+                ->andWhere($querybuilder->expr()->notIn('s.id', $subquery->getDQL()))
+                ->setParameter(':userId1', $user);
+//            $querybuilder
+//                ->innerJoin('s.membreInscrit','p','s.id=p.sortie_id' )
 //                ->andWhere('p.id= :userId')
 //                ->setParameter(':userId', $user);
-//
-//
-//            $querybuilder
-//                ->where($querybuilder->expr()->notIn('s.id', $subquery));
-            $querybuilder
-                ->innerJoin('s.membreInscrit','p','s.id=p.sortie_id' )
-                ->andWhere('p.id= :userId')
-                ->setParameter(':userId', $user);
 
         }
         if ($sortiePasse != false){
