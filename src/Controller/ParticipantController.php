@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Form\ChangePasswordType;
 use App\Form\UpdatePhotoProfilType;
 use App\Form\UpdateProfilType;
@@ -9,6 +10,7 @@ use App\Repository\ParticipantRepository;
 use App\Security\AppAuthenticator;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -97,21 +99,17 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/participant/MonProfil/ModifierPhotoProfil", name="participant_modifier_PhotoProfil")
-     * @return Response
      */
-    public function modifierPhotoProfil(Request $request, SluggerInterface $slugger, FileUploader $fileUploader,EntityManager $em): Response
+    public function modifierPhotoProfil(Request $request, SluggerInterface $slugger,EntityManagerInterface $em): Response
     {
+
         $user = $this->getUser();
         $form = $this->createForm(UpdatePhotoProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $brochureFile */
-            $brochureFile = $form->get('brochure')->getData();
-            if ($brochureFile) {
-                $brochureFileName = $fileUploader->upload($brochureFile);
-                $user->setBrochureFilename($brochureFileName);
-            }
+            $brochureFile = $form->get('FileNamePhotoProfil')->getData();
 
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
@@ -133,7 +131,7 @@ class ParticipantController extends AbstractController
 
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
-                $user->setBrochureFilename($newFilename);
+                $user->setFileNamePhotoProfil($newFilename);
             }
 
             $em->persist($user);
@@ -144,8 +142,9 @@ class ParticipantController extends AbstractController
 
         }
 
-        return $this->renderForm('product/new.html.twig', [
+        return $this->renderForm('participant/PhotoProfil.html.twig', [
             'UpdatePhotoProfil' => $form,
+            'user'=> $user,
         ]);
     }
 }

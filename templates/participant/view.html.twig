@@ -12,6 +12,9 @@
             <div><label>Téléphone : </label><tp>{{ user.telephone}}</tp></div>
             <div><label>Email : </label><tp>{{ user.email }}</tp></div>
             <div><label>Campus : </label><tp>{{ user.campus.nom}}</tp></div>
+            <div><label>Photo </label><tp><img src="{{ asset('uploads/PhotoProfil/'~ user.fileNamePhotoProfil) }}" alt="test"/></tp></div>
+
+
             <a href="{{ path('sortie_list') }}">Retour</a>
         </div>
     </div>

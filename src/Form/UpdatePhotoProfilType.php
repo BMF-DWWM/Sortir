@@ -29,10 +29,6 @@ class UpdatePhotoProfilType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'minWidth' => 200,
-                        'maxWidth' => 400,
-                        'minHeight' => 200,
-                        'maxHeight' => 400,
                         'mimeTypes' => [
                             'image/*',
                         ],
