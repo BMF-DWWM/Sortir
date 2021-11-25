@@ -75,7 +75,8 @@ class SortieController extends AbstractController
      */
     public function list(SortieRepository $sortieRepository,
                         Request $request,
-                        EntityManagerInterface $entityManager
+                        EntityManagerInterface $entityManager,
+                        EtatRepository $etatRepository
     ): Response
     {
        $sorties = $sortieRepository ->findAll();
@@ -96,11 +97,22 @@ class SortieController extends AbstractController
            );
        }
 
-       return $this->render('sortie/list.html.twig',[
-            'sorties'=> $sorties,
-            'formSearch' => $formSearch->createView()
-       ]);
+        foreach ($sorties as $sortie) {
+            $archive = new \DateTime("-1 month");
+            if ($sortie->getDateHeureDebut() < $archive) {
+                $etatPasse = $etatRepository->searchEtatPassee();
+                $sortie->setEtat(array_values($etatPasse)[0]);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+            }
+
+            return $this->render('sortie/list.html.twig', [
+                'sorties' => $sorties,
+                'formSearch' => $formSearch->createView()
+            ]);
+        }
     }
+
     /**
      * @Route("/sortie/modifier", name="sortie_modifier")
      */

@@ -33,6 +33,12 @@ class EtatRepository extends ServiceEntityRepository
         $query = $querybuilder->getQuery();
         return $query->getResult();
     }
+    public function searchEtatPassee(){
+        $querybuilder = $this->createQueryBuilder('e');
+        $querybuilder->where('e.libelle = \'passee\'');
+        $query = $querybuilder->getQuery();
+        return $query->getResult();
+    }
 
     // /**
     //  * @return Etat[] Returns an array of Etat objects
