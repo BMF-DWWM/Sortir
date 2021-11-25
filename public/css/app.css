@@ -54,6 +54,21 @@ input{
   background: #FFFFFF;
 }
 
+.mdpButton{
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  font:x-small fantasy;
+  border-radius: 10px;
+  box-shadow: 0 0 5px #c0f8cc;
+  transition: 0.5s;
+  background: #FFFFFF;
+  text-decoration: none;
+  outline: none;
+  color: #626262;
+  box-sizing: content-box;
+}
+
 .button{
   display: flex;
   justify-content: center;

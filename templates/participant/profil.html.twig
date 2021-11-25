@@ -14,10 +14,12 @@
         {{ form_widget(UpdateProfil) }}
         <input type="submit">
         {{ form_end(UpdateProfil) }}
+
     </div>
+            <a class="mdpButton" href="{{ path('participant_NouveauMotDePasse') }}">Modifier Mot de passe</a>
         </div>
     </div>
-        <a href="{{ path('participant_NouveauMotDePasse') }}">Modifier Mot de passe</a>
+
 
 {% endblock %}
 
