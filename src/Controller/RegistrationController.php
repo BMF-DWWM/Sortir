@@ -28,6 +28,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setFileNamePhotoProfil("PhotoProfilDefault.png");
             // encode the plain password
             $user->setPassword(
             $passwordHasher->hashPassword(

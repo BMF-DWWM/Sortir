@@ -81,7 +81,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $campus;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true, options={"default" : "PhotoProfilDefault.png"})
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $FileNamePhotoProfil;
 
