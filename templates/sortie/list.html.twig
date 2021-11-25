@@ -9,7 +9,26 @@
     {% endif %}
     <div class="container">
         <div class="block">
-            <span>{{ form(formSearch) }}</span>
+            <span>{{form_start(formSearch) }}</span>
+            <span>{{ form_row(formSearch.campus) }}</span>
+            <span>{{ form_row(formSearch.mots) }}</span>
+            <span>{{ form_row(formSearch.date1) }}</span>
+            <span>{{ form_row(formSearch.date2) }}</span>
+            {% if not app.user %}
+            <span style="display: none">{{ form_row(formSearch.jeSuisOrganisateur) }}</span>
+            <span style="display: none">{{ form_row(formSearch.jeSuisInscrit) }}</span>
+            <span style="display: none">{{ form_row(formSearch.jeSuisPasInscrit) }}</span>
+            {% endif %}
+            {% if app.user %}
+                <span >{{ form_row(formSearch.jeSuisOrganisateur) }}</span>
+                <span >{{ form_row(formSearch.jeSuisInscrit) }}</span>
+                <span >{{ form_row(formSearch.jeSuisPasInscrit) }}</span>
+            {% endif %}
+
+            <span>{{ form_row(formSearch.sortiePasse) }}</span>
+            <span>{{ form_row(formSearch.Rerchercher) }}</span>
+            <span>{{ form_end(formSearch) }}</span>
+
         </div>
 </div>
     <div>
@@ -50,49 +69,51 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for sortie in sorties %}
+                {% if  sorties   %}
+                    {% for sortie in sorties %}
 
-                <tr>
+                    <tr>
 
-                        <td><a style="color: #b0903e; font-weight:bolder; font-size: large" href="{{ path('sortie_detail',{'id':sortie.id})}}">{{ sortie.nom }}</a></td>
-                        <td>{{ sortie.infosSortie }}</td>
-                        <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i:s') }}</td>
-                        <td>{{ sortie.dateLimiteInscription |date('d/m/Y H:i:s')}}</td>
-                        <td>{{ sortie.membreInscrit.count }}/{{ sortie.nbInscriptionsMax }} </td>
-                        <td>{{ sortie.etat.libelle }}</td>
-                        <td><a style="color: #b0903e; font-weight:bold; font-size: medium" href="{{ path('participant_view', { 'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a></td>
-                    {% if sortie.membreInscrit.count < sortie.nbInscriptionsMax %}
+                            <td><a style="color: #b0903e; font-weight:bolder; font-size: large" href="{{ path('sortie_detail',{'id':sortie.id})}}">{{ sortie.nom }}</a></td>
+                            <td>{{ sortie.infosSortie }}</td>
+                            <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i:s') }}</td>
+                            <td>{{ sortie.dateLimiteInscription |date('d/m/Y H:i:s')}}</td>
+                            <td>{{ sortie.membreInscrit.count }}/{{ sortie.nbInscriptionsMax }} </td>
+                            <td>{{ sortie.etat.libelle }}</td>
+                            <td><a style="color: #b0903e; font-weight:bold; font-size: medium" href="{{ path('participant_view', { 'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a></td>
+                        {% if sortie.membreInscrit.count < sortie.nbInscriptionsMax %}
 
-                        <td>
-                            {% if sortie.dateLimiteInscription> date('now') %}
-                            <form method="post" name="inscription" action="{{ path('sortie_inscription',{'id': sortie.id}) }} ">
-                                    <input type="submit" value="S'incrire" name="inscription">
-                            </form>
-                            {% endif %}
-                            {% endif %}
-                            {% if app.user!= null and app.user.id ==sortie.organisateur.id and sortie.dateHeureDebut> date('now') %}
-                            <form method="post" name="modifier" action="{{ path('sortie_modifier',{'id': sortie.id}) }}">
-                                         <input type="submit" value="Modifier" name="modifier" >
-                            </form>
-                            {% endif %}
-                            {% if app.user!= null and app.user.id !=sortie.organisateur.id and  sortie.dateHeureDebut> date('now')%}
-                            <form method="post" name="desister" action="{{ path('sortie_desiste',{'id': sortie.id}) }}">
-                                <input type="submit" value="Se désister" name="desister" >
-                            </form>
-                            {% endif %}
-                            {% if app.user!= null and app.user.id ==sortie.organisateur.id and sortie.dateHeureDebut> date('now') and sortie.etat.libelle != "Annulee"%}
-                            <form  method="post" name="valider_annuler" id="valider_annuler" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
-                                <input  type="submit" value="Annuler une sortie" id="annuler" name="annuler" >
-                            </form>
-                            {% endif %}
+                            <td>
+                                {% if sortie.dateLimiteInscription> date('now') %}
+                                <form method="post" name="inscription" action="{{ path('sortie_inscription',{'id': sortie.id}) }} ">
+                                        <input type="submit" value="S'incrire" name="inscription">
+                                </form>
+                                {% endif %}
+                                {% endif %}
+                                {% if app.user!= null and app.user.id ==sortie.organisateur.id and sortie.dateHeureDebut> date('now') %}
+                                <form method="post" name="modifier" action="{{ path('sortie_modifier',{'id': sortie.id}) }}">
+                                             <input type="submit" value="Modifier" name="modifier" >
+                                </form>
+                                {% endif %}
+                                {% if app.user!= null and app.user.id !=sortie.organisateur.id and  sortie.dateHeureDebut> date('now')%}
+                                <form method="post" name="desister" action="{{ path('sortie_desiste',{'id': sortie.id}) }}">
+                                    <input type="submit" value="Se désister" name="desister" >
+                                </form>
+                                {% endif %}
+                                {% if app.user!= null and app.user.id ==sortie.organisateur.id and sortie.dateHeureDebut> date('now') and sortie.etat.libelle != "Annulee"%}
+                                <form  method="post" name="valider_annuler" id="valider_annuler" action="{{ path('sortie_annuler',{'id': sortie.id}) }}">
+                                    <input  type="submit" value="Annuler une sortie" id="annuler" name="annuler" >
+                                </form>
+                                {% endif %}
 
-                        </td>
-
-
+                            </td>
 
 
-                </tr>
-                {% endfor %}
+
+
+                    </tr>
+                    {% endfor %}
+                {% endif %}
                 <tbody>
             </table>
         </div>

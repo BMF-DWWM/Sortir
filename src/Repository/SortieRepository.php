@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -56,10 +57,38 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('date1', $date1->format('Y-m-d'))
                 ->setParameter('date2', $date2->format('Y-m-d'));
         }
-        if ($jeSuisOrganisateur != null){
+        if ($jeSuisOrganisateur != false){
 
-            $querybuilder->andWhere('s.organisateur = :user')
-                ->setParameter(':user', $user);
+            $querybuilder->andWhere('s.organisateur = :userId')
+                ->setParameter(':userId', $user);
+        }
+        if ($jeSuisInscrit != false){
+
+            $querybuilder
+                    ->innerJoin('s.membreInscrit','p','s.id=p.sortie_id' )
+                    ->andWhere('p.id= :userId')
+                    ->setParameter(':userId', $user);
+        }
+        if ($jeSuisPasInscrit != false){
+//            $subquery = $this->createQueryBuilder('a')
+//                ->innerJoin('s.membreInscrit', 'p', 'a.id=p.sortie_id')
+//                ->andWhere('p.id= :userId')
+//                ->setParameter(':userId', $user);
+//
+//
+//            $querybuilder
+//                ->where($querybuilder->expr()->notIn('s.id', $subquery));
+            $querybuilder
+                ->innerJoin('s.membreInscrit','p','s.id=p.sortie_id' )
+                ->andWhere('p.id= :userId')
+                ->setParameter(':userId', $user);
+
+        }
+        if ($sortiePasse != false){
+
+            $querybuilder
+                ->andWhere('s.etat = \'passee\'');
+
         }
 
         $query = $querybuilder->getQuery();
