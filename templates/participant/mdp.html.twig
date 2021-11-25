@@ -3,12 +3,14 @@
 {% block title %}   {{ parent() }} | Modifier mon mot de passe {% endblock %}
 
 {% block body %}
-
+<div class="container">
+    <div class="block">
     {{ form_start(UpdatePass) }}
     {{ form_widget(UpdatePass) }}
     <input type="submit">
     {{ form_end(UpdatePass) }}
-
+    </div>
+</div>
 
 {% endblock %}
 

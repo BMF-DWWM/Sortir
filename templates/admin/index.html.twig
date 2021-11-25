@@ -9,7 +9,7 @@
 </style>
 
 <div class="block">
-    <h1>Bonjour {{ app.user.nom }} ! ✅</h1>
+    <h1>Bonjour {{ app.user.prenom }} {{ app.user.nom }} ! ✅</h1>
     <h3>Bienvenue dans votre outil de gestion Administrateur</h3>
 
     <div class="form">
@@ -47,7 +47,7 @@
                 <th>Nom</th>
                 <th>E-mail</th>
                 <th>Téléphone</th>
-                <th>Actif/Inactif</th>
+                <th>Etat</th>
                 <th>Action</th>
 
             </tr>
@@ -62,7 +62,7 @@
                 <td>{{ participant.telephone }}</td>
 
                 {% if participant.actif==true %}
-                <td>Actions</td>
+                <td>{{ participant.actif}}</td>
                 <td>
                         <form method="post" name="inactif" action="{{ path('participant_inactif',{'id': participant.id}) }}">
                             <input type="submit" value="Inactif" name="inactif" >
