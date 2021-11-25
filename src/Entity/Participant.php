@@ -80,6 +80,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $campus;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $FileNamePhotoProfil;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -300,6 +305,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getFileNamePhotoProfil(): ?string
+    {
+        return $this->FileNamePhotoProfil;
+    }
+
+    public function setFileNamePhotoProfil(string $FileNamePhotoProfil): self
+    {
+        $this->FileNamePhotoProfil = $FileNamePhotoProfil;
 
         return $this;
     }

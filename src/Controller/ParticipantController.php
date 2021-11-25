@@ -2,22 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
 use App\Form\ChangePasswordType;
-use App\Form\RegistrationFormType;
+use App\Form\UpdatePhotoProfilType;
 use App\Form\UpdateProfilType;
 use App\Repository\ParticipantRepository;
 use App\Security\AppAuthenticator;
-use phpDocumentor\Reflection\Types\This;
+use App\Service\FileUploader;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
-use Symfony\Component\Security\Http\Authenticator\Passport\UserPassportInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ParticipantController extends AbstractController
 {
@@ -92,9 +92,60 @@ class ParticipantController extends AbstractController
 
             'UpdatePass' => $form->createView(),
             'User' => $user
-
         ));
-
     }
 
+    /**
+     * @Route("/participant/MonProfil/ModifierPhotoProfil", name="participant_modifier_PhotoProfil")
+     * @return Response
+     */
+    public function modifierPhotoProfil(Request $request, SluggerInterface $slugger, FileUploader $fileUploader,EntityManager $em): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(UpdatePhotoProfilType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $brochureFile */
+            $brochureFile = $form->get('brochure')->getData();
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $user->setBrochureFilename($brochureFileName);
+            }
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $user->setBrochureFilename($newFilename);
+            }
+
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('notice', 'Votre photo de profil à bien été changé !');
+
+            return $this->redirectToRoute('participant_modifier');
+
+        }
+
+        return $this->renderForm('product/new.html.twig', [
+            'UpdatePhotoProfil' => $form,
+        ]);
+    }
 }
