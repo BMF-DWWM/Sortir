@@ -37,7 +37,11 @@ class SortieRepository extends ServiceEntityRepository
                             $date1= null,
                             $date2 = null,
                             $jeSuisOrganisateur=null,
-                            $user=null){
+                            $jeSuisInscrit=null,
+                            $jeSuisPasInscrit=null,
+                            $sortiePasse=null,
+                            $user=null
+    ){
         $querybuilder = $this->createQueryBuilder('s');
         if ($mots != null){
             $querybuilder->where('s.nom LIKE :mots ')

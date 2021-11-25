@@ -15,9 +15,11 @@
         {{ form_row(createSortieForm.nbInscriptionsMax) }}
         {{ form_row(createSortieForm.infosSortie) }}
         {{ form_row(createSortieForm.campus) }}
+        {{ form_row(createSortieForm.ville) }}
         <div id="liste_lieu">
             {{ form_row(createSortieForm.Lieu) }}
         </div>
+
 
         {{ form_end(createSortieForm) }}
     </div>
@@ -31,39 +33,7 @@
             {{ form_end(createLieuForm)}}
         </div>
     </div>
-{#    <script type="text/javascript" >#}
 
-{#        window.onload = () => {#}
-{#            let ville = document.querySelector("#create_sortie_ville");#}
-{#            ville.addEventListener("change", function(){#}
-{#                let form = this.closest("form");#}
-{#                let data = this.name+ "=" + this.value;#}
-{#                console.log(data)#}
-{#                fetch(form.action, {#}
-{#                    method: form.getAttribute("method"),#}
-{#                    body: data,#}
-{#                    headers: {#}
-{#                        "Content-Type":"application/x-www-form-urlencoded" +#}
-{#                            "charset:utf-8"#}
-{#                    }#}
-{#                })#}
-{#                .then(response => response.text())#}
-
-{#                .then(html => {#}
-{#                    let content = document.createElement("html");#}
-{#                    content.innerHTML = html;#}
-{#                    console.log(html)#}
-{#                    let nouveauSelect = content.querySelector("#create_sortie_Lieu")#}
-{#                    console.log(nouveauSelect)#}
-{#                    console.log(nouveauSelect)#}
-{#                    document.querySelector("#create_sortie_Lieu").replaceWith(nouveauSelect)#}
-{#                })#}
-{#                .catch(error =>{#}
-{#                    console.log(error)#}
-{#                })#}
-{#            })#}
-{#        }#}
-{#    </script>#}
     <script>
         var $ville = $('#create_sortie_ville');
         // When sport gets selected ...

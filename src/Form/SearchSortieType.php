@@ -48,6 +48,15 @@ class SearchSortieType extends AbstractType
             ->add('jeSuisOrganisateur', CheckboxType::class,[
                 'required'=>false
             ])
+            ->add('jeSuisInscrit', CheckboxType::class,[
+                'required'=>false
+            ])
+            ->add('jeSuisPasInscrit', CheckboxType::class,[
+                'required'=>false
+            ])
+            ->add('sortiePasse', CheckboxType::class,[
+                'required'=>false
+            ])
             ->add('Rerchercher', SubmitType::class)
         ;
     }
