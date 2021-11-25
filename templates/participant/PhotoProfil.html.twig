@@ -4,11 +4,13 @@
 
 {% block body %}
 
+    <div class="form">
+        {{ form_start(UpdatePhotoProfil) }}
+        {{ form_widget(UpdatePhotoProfil) }}
+        <input type="submit">
+        {{ form_end(UpdatePhotoProfil) }}
+    </div>
 
-    {{ form_start(UpdatePhotoProfil) }}
-    {{ form_widget(UpdatePhotoProfil) }}
-    <input type="submit">
-    {{ form_end(UpdatePhotoProfil) }}
 
 {% endblock %}
 

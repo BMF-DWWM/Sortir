@@ -5,11 +5,16 @@
 {% block body %}
 
 
-    {{ form_start(UpdateProfil) }}
-    {{ form_widget(UpdateProfil) }}
-    <input type="submit">
-    {{ form_end(UpdateProfil) }}
-    <a href="{{ path('participant_NouveauMotDePasse') }}">Modifier Mot de passe</a>
+        <label>Photo</label>
+        <span><img class="PhotoProfil" src="{{ asset('uploads/PhotoProfil/'~ user.fileNamePhotoProfil) }}" alt="Photo-Profil"/></span>
+        <span><a href="{{ path('participant_modifier_PhotoProfil') }}">🖊️</a></span>
+    <div class="form">
+        {{ form_start(UpdateProfil) }}
+        {{ form_widget(UpdateProfil) }}
+        <input type="submit">
+        {{ form_end(UpdateProfil) }}
+    </div>
+        <a href="{{ path('participant_NouveauMotDePasse') }}">Modifier Mot de passe</a>
 
 {% endblock %}
 

@@ -94,6 +94,11 @@ input{
   background-image: linear-gradient(to right, #617bc0 0%, #e5ffcc 51%, #85a7fd 100%);
 }
 
+.PhotoProfil{
+  width: 100px;
+  border: 5px solid white;
+}
+
 /* Table Styles */
 
 .table-wrapper{
