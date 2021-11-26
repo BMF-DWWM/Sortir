@@ -200,7 +200,7 @@ class SortieController extends AbstractController
                 if ($formRaisonAnnulation->isSubmitted()&& $formRaisonAnnulation->isValid()){
                     $etatAnnulee=$etatRepository->searchEtatAnnulee();
                     $sortie->setEtat(array_values($etatAnnulee)[0]);
-                    $sortie->setInfosSortie($sortie->getInfosSortie()." Raison de l'annulation :".$formRaisonAnnulation['raison']->getData());
+                    $sortie->setInfosSortie($sortie->getInfosSortie()." | Raison de l'annulation :".$formRaisonAnnulation['raison']->getData());
                     $entityManager->persist($sortie);
                     $entityManager->flush();
                     $this->addFlash('success','Sortie annuler ! it\'s not a Good job.');

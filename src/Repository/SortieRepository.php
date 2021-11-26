@@ -88,7 +88,7 @@ class SortieRepository extends ServiceEntityRepository
         if ($sortiePasse != false){
 
             $querybuilder
-                ->andWhere('s.etat = \'passee\'');
+                ->andWhere('s.etat = 7');
 
         }
 
