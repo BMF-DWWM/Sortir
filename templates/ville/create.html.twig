@@ -6,15 +6,17 @@
     {% else %}
         <h1>Bonjour visiteur</h1>
     {% endif %}
-    <div class="form">
+    <div class="container">
+        <div class="block">
         {{ form_start(createVilleForm) }}
 
         {{ form_widget(createVilleForm) }}
         <button>Create!</button>
         {{ form_end(createVilleForm) }}
+        </div>
     </div>
 
-    <a href="{{ path('admin_view') }}" title="retour">Retour</a>
+    <a class="button btn btn-1" href="{{ path('admin_view') }}" title="retour">Retour</a>
 {% endblock %}
 
 {% block title  %}{{ parent() }} | Home {% endblock %}
