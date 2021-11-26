@@ -9,6 +9,7 @@ use App\Form\CreateEtatType;
 use App\Form\CreateLieuformType;
 use App\Form\CreateSortieType;
 use App\Form\ListVilleType;
+use App\Form\ModifSortieFormType;
 use App\Form\RaisonAnnulerType;
 use App\Form\SearchSortieType;
 use App\Repository\EtatRepository;
@@ -130,10 +131,12 @@ class SortieController extends AbstractController
     {
 
             $sortie= $sortieRepository->find($_GET["id"]);
-            $formModifSortie = $this->createForm(CreateSortieType::class, $sortie);
+            $formModifSortie = $this->createForm(ModifSortieFormType::class, $sortie);
             $formModifSortie->handleRequest($request);
 
-
+            $lieu = new Lieu();
+            $createLieuForm= $this->createForm(CreateLieuformType::class,$lieu);
+            $createLieuForm->handleRequest($request);
 
             if ($formModifSortie->isSubmitted()&&$formModifSortie->isValid()){
                 $entityManager->persist($sortie);
@@ -143,7 +146,8 @@ class SortieController extends AbstractController
             }
 
         return $this->render('sortie/modifier.html.twig',[
-            'formModifSortie'=> $formModifSortie->createView()
+            'formModifSortie'=> $formModifSortie->createView(),
+            'createLieuForm'=>$createLieuForm->createView()
         ]);
     }
 

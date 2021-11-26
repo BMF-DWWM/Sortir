@@ -28,7 +28,7 @@ class Sortie
     private $nom;
 
     /**
-     * @Assert\GreaterThanOrEqual("-1 minute")
+     * @Assert\GreaterThanOrEqual("-10 minute")
      * @ORM\Column(type="datetime", nullable=true , options={"default": "CURRENT_TIMESTAMP"})
      */
     private $dateHeureDebut;

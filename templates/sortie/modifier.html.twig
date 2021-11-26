@@ -1,18 +1,66 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
     {% if app.user  %}
         <h1> Hello {{ app.User.prenom}} {{ app.user.nom }}</h1>
     {% else %}
         <h1>Bonjour visiteur</h1>
     {% endif %}
-    <div class="form">
-        {{ form_start(formModifSortie) }}
+    <div class="container">
+        <div class="block">
+            {{ form_start(formModifSortie) }}
+            {{ form_row(formModifSortie.nom) }}
+            {{ form_row(formModifSortie.dateHeureDebut) }}
+            {{ form_row(formModifSortie.duree) }}
+            {{ form_row(formModifSortie.nbInscriptionsMax) }}
+            {{ form_row(formModifSortie.infosSortie) }}
+            {{ form_row(formModifSortie.campus) }}
+            <div id="liste_lieu">
+                {{ form_row(formModifSortie.Lieu) }}
+            </div>
 
-        {{ form_widget(formModifSortie) }}
-        <button>Update!</button>
-        {{ form_end(formModifSortie) }}
+        </div>
     </div>
+    {{ form_end(formModifSortie) }}
+    </div>
+    <div class="container">
+        <div class="block">
+            <button id="afficher_lieu_form">Creer un lieu!</button>
+            <button style="display: none" id="afficher_liste_lieu">Afficher la liste!</button>
+            <div style="display: none" id="formulaire_lieu">
+                {{ form_start(createLieuForm) }}
+                {{ form_widget(createLieuForm)}}
+                <button>Submit le lieu!</button>
+                {{ form_end(createLieuForm)}}
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript" >
+
+        document.getElementById('afficher_lieu_form').onclick = function afficher(){
+            if(document.getElementById('formulaire_lieu').style.display == "none"){
+                document.getElementById('formulaire_lieu').style.display = "block";
+                document.getElementById('liste_lieu').style.display= "none";
+                document.getElementById('afficher_lieu_form').style.display= "none";
+                document.getElementById('afficher_liste_lieu').style.display= "block";
+            }
+        }
+
+    </script>
+    <script type="text/javascript" >
+        document.getElementById('afficher_liste_lieu').onclick = function enlever(){
+            document.getElementById('formulaire_lieu').style.display = "none";
+            document.getElementById('liste_lieu').style.display= "block";
+            document.getElementById('afficher_lieu_form').style.display= "block";
+            document.getElementById('afficher_liste_lieu').style.display= "none";
+        }
+    </script>
+
+
 {% endblock %}
 
 {% block title  %}{{ parent() }} | Home {% endblock %}
